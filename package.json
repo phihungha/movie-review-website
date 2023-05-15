@@ -6,6 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format-check": "prettier --check .",
+    "format": "prettier --write .",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -33,7 +35,7 @@
       "prettier --write",
       "eslint --cache --fix"
     ],
-    "*.{md,json}": [
+    "*.{md,json,yml}": [
       "prettier --write"
     ]
   }
