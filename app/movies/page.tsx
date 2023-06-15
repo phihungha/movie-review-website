@@ -1,4 +1,4 @@
-import LoadingSpinner from "@/components/loadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Movie, fetchMovies } from "@/lib/fetch-movies";
 import Image from "next/image";
 import { Suspense } from "react";
