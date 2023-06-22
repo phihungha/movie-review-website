@@ -9,6 +9,7 @@ const nextConfig = {
         pathname: "/public/**/*",
       },
     ],
+    domains: ["static.wikia.nocookie.net"],
   },
 };
 
