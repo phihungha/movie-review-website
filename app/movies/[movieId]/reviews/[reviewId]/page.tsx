@@ -66,7 +66,7 @@ export default function ReviewDetails({
           <div className="flex flex-row justify-center w-full gap-10 pt-10 h-6">
             <div className="self-center">
               <Button color="error" className="px-20" variant="outlined">
-                Cancel
+                Delete
               </Button>
             </div>
             <div className="self-center">
