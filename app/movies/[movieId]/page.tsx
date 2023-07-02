@@ -1,4 +1,5 @@
 "use client";
+
 import CrewCard, { ICrewCard } from "@/components/CrewCard";
 import ReviewCard, { IReviewCard } from "@/components/ReviewCard";
 import Divider from "@mui/material/Divider";
@@ -10,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import useSWR from "swr";
 
 const crews: ICrewCard[] = [
   {
@@ -94,15 +96,22 @@ const reviews: IReviewCard[] = [
   },
 ];
 
-export default function MovieDetails({ params }: { params: { slug: string } }) {
-  console.log(params.slug);
+interface MovieDetailsProps {
+  params: {
+    movieId: string;
+  };
+}
+
+export default function MovieDetails({ params }: MovieDetailsProps) {
+  const { data, error } = useSWR(`/movies/${params.movieId}`);
+
   return (
     <div className="place-items-center content-center">
       <div className="flex whitespace-nowrap flex-row p-0 w-full">
         <div className="flex flex-col place-items-center p-20 gap-10">
           <Image
             className="rounded"
-            src="https://static.wikia.nocookie.net/john-wick8561/images/7/7c/Chapterfour.jpeg/revision/latest?cb=20230523074638"
+            src={data?.posterUrl}
             width={240}
             height={380}
             alt={"John Wick"}
@@ -111,16 +120,16 @@ export default function MovieDetails({ params }: { params: { slug: string } }) {
         </div>
         <div className="flex flex-col items-start w-9/12 p-20 gap-3 ">
           <h2 className="text-5xl not-italic font-bold text-gray-900">
-            John Wick
+            {data?.title}
           </h2>
           <div className="flex flex-row items-center gap-1">
             <StarIcon sx={{ fontSize: 30 }} color="warning" />
-            <h2 className="text-xl not-italic font-normal text-xs leading-4 text-black-500">
-              4.5
+            <h2 className="text-xl not-italic font-normal leading-4 text-black-500">
+              {data?.criticScore}
             </h2>
           </div>
           <div>
-            <h2 className="text-lg not-italic font-normal text-xs leading-4 text-black-100 whitespace-pre-line">
+            <h2 className="text-lg not-italic font-normal leading-4 text-black-100 whitespace-pre-line">
               Istanbul Police DepartmentIstanbul Police DepartmentIstanbul
               Police DepartmentIstanbul Police DepartmentIstanbul Police
               DepartmentIstanbul Police DepartmentIstanbul Police
