@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { SWRConfig } from "swr";
-import { fetcher } from "../lib/axios";
+import { fetcher } from "../lib/api";
 
 interface SwrProviderProps {
   children: ReactNode;
