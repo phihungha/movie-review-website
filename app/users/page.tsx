@@ -61,7 +61,7 @@ export default function Users() {
   data?.map((user: User) => users.push(user));
   users.map(
     (user: User) =>
-      (user.dateOfBirth = new Date(user.dateOfBirth).toLocaleTimeString())
+      (user.dateOfBirth = new Date(user.dateOfBirth).toLocaleDateString())
   );
   return (
     <div className="p-20">
