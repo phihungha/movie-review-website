@@ -15,6 +15,11 @@ import Link from "next/link";
 //  title: "Sign Up",
 //};
 
+function HandleSignUp() {
+  console.log("api here!");
+  return;
+}
+
 export default function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -90,7 +95,11 @@ export default function SignUp() {
         </div>
 
         <div className="self-center p-10 w-full">
-          <Button className="px-20 w-full" variant="outlined">
+          <Button
+            className="px-20 w-full"
+            variant="outlined"
+            onClick={HandleSignUp}
+          >
             Sign up
           </Button>
         </div>
