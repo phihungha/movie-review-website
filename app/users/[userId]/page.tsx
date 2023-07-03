@@ -14,6 +14,7 @@ interface UserDetailsProps {
 
 export default function UserDetails({ params }: UserDetailsProps) {
   const { data, error } = useSWR(`/users/${params.userId}`);
+  const formatdate = new Date(data?.dateOfBirth).toLocaleDateString();
   const linkAll = "/users/" + params.userId + "/reviews";
   const linkThanked = "/users/" + params.userId + "/thankedReviews";
   const linkViewed = "/users/" + params.userId + "/viewedMovies";
@@ -44,6 +45,7 @@ export default function UserDetails({ params }: UserDetailsProps) {
                 InputProps={{
                   readOnly: true,
                 }}
+                InputLabelProps={{ shrink: true }}
               />
             </div>
 
@@ -56,6 +58,7 @@ export default function UserDetails({ params }: UserDetailsProps) {
                 InputProps={{
                   readOnly: true,
                 }}
+                InputLabelProps={{ shrink: true }}
               />
             </div>
           </div>
@@ -64,11 +67,12 @@ export default function UserDetails({ params }: UserDetailsProps) {
               <TextField
                 className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
                 label="Birthday"
-                defaultValue={data?.dateOfBirth}
+                defaultValue={formatdate}
                 variant="filled"
                 InputProps={{
                   readOnly: true,
                 }}
+                InputLabelProps={{ shrink: true }}
               />
             </div>
 
@@ -81,6 +85,7 @@ export default function UserDetails({ params }: UserDetailsProps) {
                 InputProps={{
                   readOnly: true,
                 }}
+                InputLabelProps={{ shrink: true }}
               />
             </div>
           </div>

@@ -13,45 +13,37 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import useSWR from "swr";
 
-const crews: ICrewCard[] = [
-  {
-    id: 1,
-    Name: "Trung",
-    role: "Director",
-    avatar_path: "",
-  },
-  {
-    id: 2,
-    Name: "Trung",
-    role: "Director",
-    avatar_path: "",
-  },
-  {
-    id: 3,
-    Name: "Trung",
-    role: "Director",
-    avatar_path: "",
-  },
-  {
-    id: 4,
-    Name: "Trung",
-    role: "Director",
-    avatar_path: "",
-  },
-  {
-    id: 5,
-    Name: "Trung",
-    role: "Director",
-    avatar_path: "",
-  },
-];
-
-const sampleuser: ICrewCard = {
-  id: 10,
-  Name: "Trung",
-  role: "Critic",
-  avatar_path: "",
+type Director = {
+  id: string;
+  name: string;
+  avatarUrl: string;
 };
+
+type Cast = {
+  movieId: string;
+  crewId: string;
+  characterName: string;
+};
+
+function ChangeType(director: Director, role: string): ICrewCard {
+  const crew: ICrewCard = {
+    id: director.id,
+    Name: director.name,
+    role: role,
+    avatar_path: director.avatarUrl,
+  };
+  return crew;
+}
+
+function ChangeTypeCast(cast: Cast): ICrewCard {
+  const crew: ICrewCard = {
+    id: cast.crewId,
+    Name: "",
+    role: cast.characterName,
+    avatar_path: "",
+  };
+  return crew;
+}
 
 interface MovieDetailsProps {
   params: {
@@ -77,6 +69,25 @@ function HandleSubmit() {
 
 export default function MovieDetails({ params }: MovieDetailsProps) {
   const { data, error } = useSWR(`/movies/${params.movieId}`);
+  const formatScore = data?.regularScore / 2;
+  const crews: ICrewCard[] = [];
+  const casts: ICrewCard[] = [];
+  data?.directors.map((director: Director) =>
+    crews.push(ChangeType(director, "Director"))
+  );
+  data?.writers.map((director: Director) =>
+    crews.push(ChangeType(director, "Writer"))
+  );
+  data?.dops.map((director: Director) =>
+    crews.push(ChangeType(director, "DoP"))
+  );
+  data?.editors.map((director: Director) =>
+    crews.push(ChangeType(director, "Editor"))
+  );
+  data?.composers.map((director: Director) =>
+    crews.push(ChangeType(director, "Composer"))
+  );
+  data?.actingCredits.map((cast: Cast) => casts.push(ChangeTypeCast(cast)));
   const link = "/movies/" + params.movieId + "/reviews";
   return (
     <div className="place-items-center content-center">
@@ -85,11 +96,11 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           <Image
             className="rounded"
             src={data?.posterUrl}
-            width={240}
-            height={380}
+            width={390}
+            height={400}
             alt={data?.title}
           />
-          <Rating size="large" name="read-only" value={4.5} readOnly />
+          <Rating size="large" name="read-only" value={formatScore} readOnly />
         </div>
         <div className="flex flex-col items-start w-9/12 p-20 gap-3 ">
           <h2 className="text-5xl not-italic font-bold text-gray-900">
@@ -107,8 +118,19 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
             </h2>
           </div>
           <Divider className="w-full" />
+          <h2 className="text-xl pt-0 pb-2 text-center not-italic font-bold text-gray-900">
+            Crews
+          </h2>
           <div className="flex flex-row p-0 gap-4 h-40 w-full overflow-auto">
             {crews.map((crew: ICrewCard) => (
+              <CrewCard key={crew.id} user={crew} />
+            ))}
+          </div>
+          <h2 className="text-xl pt-0 pb-2 text-center not-italic font-bold text-gray-900">
+            Casts
+          </h2>
+          <div className="flex flex-row p-0 gap-4 h-40 w-full overflow-auto">
+            {casts.map((crew: ICrewCard) => (
               <CrewCard key={crew.id} user={crew} />
             ))}
           </div>
