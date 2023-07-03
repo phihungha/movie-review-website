@@ -21,6 +21,7 @@ const ReviewCard = ({ review }: { review: IReviewCard }) => {
   const link = "/movies/" + review.movieId + "/reviews/" + review.id;
   const { data, error } = useSWR(`/users/${review.authorId}`);
   const formatscore = review.score / 2;
+  const formatdate = new Date(review.postTime).toLocaleString();
   const user: ICrewCard = {
     id: data?.id,
     Name: data?.username,
@@ -43,7 +44,7 @@ const ReviewCard = ({ review }: { review: IReviewCard }) => {
               </h2>
             </div>
             <h2 className="not-italic font-normal text-xs leading-4 text-black-500">
-              {review.postTime}
+              {formatdate}
             </h2>
           </div>
           <h2 className="not-italic font-normal text-xs text-black-100">
