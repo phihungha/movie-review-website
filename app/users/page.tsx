@@ -59,6 +59,10 @@ export default function Users() {
   const { data, error } = useSWR("/users");
   const users: User[] = [];
   data?.map((user: User) => users.push(user));
+  users.map(
+    (user: User) =>
+      (user.dateOfBirth = new Date(user.dateOfBirth).toLocaleTimeString())
+  );
   return (
     <div className="p-20">
       <Box sx={{ height: 400, width: "100%" }}>
