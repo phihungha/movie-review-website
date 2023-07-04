@@ -42,7 +42,7 @@ function GetMovie(movieId: string): MovieData {
   const movie: MovieData = {
     id: data?.id,
     title: data?.title,
-    releaseYear: data?.releaseYear,
+    releaseDate: data?.releaseDate,
     posterUrl: data?.posterUrl,
     criticScore: data?.criticScore,
     regularScore: data?.regularScore,
@@ -54,7 +54,7 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
   const { data, error } = useSWR(`/reviews/${params.reviewId}`);
   const user = GetUser(data?.authorId);
   const movie = GetMovie(data?.movieId);
-  const formatScore = data?.score / 2;
+  const formatScore = data?.score;
   return (
     <div>
       <div className="flex whitespace-nowrap flex-row p-0 w-full">
@@ -100,7 +100,7 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
             rows={4}
           />
           <div className="flex flex-row items-center gap-10 p-0 h-6">
-            <Rating size="medium" value={formatScore} />
+            <Rating size="medium" value={formatScore} max={10} />
           </div>
           <div className="flex flex-row justify-center w-full gap-10 pt-10 h-6">
             <div className="self-center">

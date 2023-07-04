@@ -13,6 +13,11 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import useSWR from "swr";
 
+type Genre = {
+  id: string;
+  name: string;
+};
+
 type Director = {
   id: string;
   name: string;
@@ -62,14 +67,10 @@ function MovieReviews({ params }: MovieDetailsProps) {
   );
 }
 
-function HandleSubmit() {
-  console.log("api here!");
-  return;
-}
-
 export default function MovieDetails({ params }: MovieDetailsProps) {
   const { data, error } = useSWR(`/movies/${params.movieId}`);
-  const formatScore = data?.regularScore / 2;
+  const formatyear = new Date(data?.releaseDate).getFullYear().toString();
+  const genres: Genre[] = [];
   const crews: ICrewCard[] = [];
   const casts: ICrewCard[] = [];
   data?.directors.map((director: Director) =>
@@ -88,7 +89,13 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
     crews.push(ChangeType(director, "Composer"))
   );
   data?.actingCredits.map((cast: Cast) => casts.push(ChangeTypeCast(cast)));
+  data?.genres.map((genre: Genre) => genres.push(genre));
   const link = "/movies/" + params.movieId + "/reviews";
+
+  function HandleSubmit() {
+    console.log("api here!");
+    return;
+  }
   return (
     <div className="place-items-center content-center">
       <div className="flex whitespace-nowrap flex-row p-0 w-full">
@@ -96,21 +103,58 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           <Image
             className="rounded"
             src={data?.posterUrl}
-            width={390}
-            height={400}
+            width={350}
+            height={300}
             alt={data?.title}
           />
-          <Rating size="large" name="read-only" value={formatScore} readOnly />
+          <div className="flex flex-row w-full place-items-center  gap-5">
+            <div className="flex flex-col place-items-end p-5 bg-slate-300 rounded w-full">
+              <div className="flex flex-row items-center gap-1">
+                <StarIcon sx={{ fontSize: 30 }} color="warning" />
+                <h2 className="text-base not-italic font-normal leading-4 text-black-500">
+                  {data?.criticScore}
+                </h2>
+              </div>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                Critic Score
+              </h2>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                {data?.criticReviewCount} reviews
+              </h2>
+            </div>
+
+            <div className="flex flex-col place-items-start bg-slate-300 p-5 rounded w-full">
+              <div className="flex flex-row items-center gap-1">
+                <h2 className="text-base not-italic font-normal leading-4 text-black-500">
+                  {data?.regularScore}
+                </h2>
+                <StarIcon sx={{ fontSize: 30 }} color="primary" />
+              </div>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                Regular Score
+              </h2>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                {data?.regularReviewCount} reviews
+              </h2>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col items-start w-9/12 p-20 gap-3 ">
           <h2 className="text-5xl not-italic font-bold text-gray-900">
             {data?.title}
           </h2>
+          <h2 className="text-2xl not-italic font-bold text-gray-900">
+            {formatyear}
+          </h2>
           <div className="flex flex-row items-center gap-1">
-            <StarIcon sx={{ fontSize: 30 }} color="warning" />
-            <h2 className="text-xl not-italic font-normal leading-4 text-black-500">
-              {data?.criticScore}
-            </h2>
+            {genres.map((genre: Genre) => (
+              <h2
+                key={genre.id}
+                className="text-xl not-italic font-normal pr-2 leading-4 text-black-500"
+              >
+                {genre.name}
+              </h2>
+            ))}
           </div>
           <div>
             <h2 className="text-lg not-italic font-normal leading-4 text-black-100 whitespace-pre-line">
@@ -159,7 +203,7 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
             rows={4}
           />
           <div className="flex flex-row items-center gap-10 p-0 h-6">
-            <Rating size="medium" value={4.5} />
+            <Rating size="medium" value={4.5} max={10} />
           </div>
         </div>
       </div>

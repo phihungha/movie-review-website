@@ -20,7 +20,7 @@ export interface IReviewCard {
 const ReviewCard = ({ review }: { review: IReviewCard }) => {
   const link = "/movies/" + review.movieId + "/reviews/" + review.id;
   const { data, error } = useSWR(`/users/${review.authorId}`);
-  const formatscore = review.score / 2;
+  const formatscore = review.score;
   const formatdate = new Date(review.postTime).toLocaleString();
   const user: ICrewCard = {
     id: data?.id,
