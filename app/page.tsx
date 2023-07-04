@@ -25,7 +25,7 @@ export default async function Home() {
       <h2 className="text-2xl pt-10 px-20 pb-10 not-italic font-bold text-gray-900">
         Recently Release
       </h2>
-      <div className="grid place-items-center grid-cols-4 p-5 gap-10 justify-center">
+      <div className="grid place-items-center grid-cols-5 px-20 gap-20 justify-center">
         {recentMovies.map((movie: MovieData) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}

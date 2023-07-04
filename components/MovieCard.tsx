@@ -8,7 +8,7 @@ import Link from "next/link";
 export interface MovieData {
   id: number;
   title: string;
-  releaseYear: number;
+  releaseDate: string;
   posterUrl: string;
   criticScore: number;
   regularScore: number;
@@ -16,7 +16,7 @@ export interface MovieData {
 
 export default function MovieCard({ movie }: { movie: MovieData }) {
   const link = "/movies/" + movie.id;
-
+  const formatyear = new Date(movie.releaseDate).getFullYear().toString();
   return (
     <Link href={link}>
       <div className="flex flex-col items-start p-0">
@@ -37,7 +37,7 @@ export default function MovieCard({ movie }: { movie: MovieData }) {
 
         <div className="flex flex-col items-start p-0 w-32 h-7">
           <h2 className="w-24 h-5 not-italic font-normal text-xs leading-6 text-black-500">
-            {movie.releaseYear}
+            {formatyear}
           </h2>
         </div>
 
