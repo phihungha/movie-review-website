@@ -2,15 +2,11 @@
 import MovieCard, { MovieData } from "@/components/MovieCard";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import FilterAlt from "@mui/icons-material/FilterAlt";
 import Box from "@mui/material/Box";
 import { InputLabel, FormControl, Select, Divider } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Search from "@mui/icons-material/Search";
 import useSWR from "swr";
 
 // export const metadata = {

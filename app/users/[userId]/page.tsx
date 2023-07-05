@@ -34,60 +34,57 @@ export default function UserDetails({ params }: UserDetailsProps) {
           <h2 className="text-xl not-italic text-gray-900">{data?.userType}</h2>
         </div>
         <Divider orientation="vertical" className="w-5" flexItem />
-        <div className="flex flex-col items-end  w-9/12 px-20 gap-3">
-          <div className="flex flex-row text-center space-x-28 place-items-center gap-20">
-            <div className="px-10">
-              <TextField
-                className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
-                label="Email"
-                defaultValue={data?.email}
-                variant="filled"
-                InputProps={{
-                  readOnly: true,
-                }}
-                InputLabelProps={{ shrink: true }}
-              />
-            </div>
-
-            <div className="px-10 py-5">
-              <TextField
-                className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
-                label="User Name"
-                defaultValue={data?.name}
-                variant="filled"
-                InputProps={{
-                  readOnly: true,
-                }}
-                InputLabelProps={{ shrink: true }}
-              />
-            </div>
+        <div className="flex flex-col items-center  w-9/12 px-20 gap-3">
+          <div className="px-10 w-full">
+            <TextField
+              className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
+              label="Email"
+              defaultValue={data?.email}
+              variant="filled"
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{ shrink: true }}
+            />
           </div>
-          <div className="flex flex-row text-center space-x-28 place-items-center gap-20">
-            <div className="px-10">
-              <TextField
-                className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
-                label="Birthday"
-                defaultValue={formatdate}
-                variant="filled"
-                InputProps={{
-                  readOnly: true,
-                }}
-                InputLabelProps={{ shrink: true }}
-              />
-            </div>
 
-            <div className="px-10 py-5">
-              <TextField
-                className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
-                label="Gender"
-                defaultValue={data?.gender}
-                variant="filled"
-                InputProps={{
-                  readOnly: true,
-                }}
-                InputLabelProps={{ shrink: true }}
-              />
-            </div>
+          <div className="px-10 py-5 w-full">
+            <TextField
+              className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
+              label="Name"
+              defaultValue={data?.name}
+              variant="filled"
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{ shrink: true }}
+            />
+          </div>
+
+          <div className="px-10 w-full">
+            <TextField
+              className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
+              label="Birthday"
+              defaultValue={formatdate}
+              variant="filled"
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{ shrink: true }}
+            />
+          </div>
+
+          <div className="px-10 py-5 w-full">
+            <TextField
+              className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
+              label="Gender"
+              defaultValue={data?.gender}
+              variant="filled"
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{ shrink: true }}
+            />
           </div>
         </div>
       </div>
