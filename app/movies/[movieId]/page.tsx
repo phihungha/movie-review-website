@@ -8,7 +8,7 @@ import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import useSWR from "swr";
@@ -98,8 +98,8 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
   }
   return (
     <div className="place-items-center content-center">
-      <div className="flex whitespace-nowrap flex-row p-0 w-full">
-        <div className="flex flex-col place-items-center p-20 gap-10">
+      <div className="flex whitespace-nowrap flex-row p-20 w-full">
+        <div className="flex flex-col w-full place-items-center gap-10">
           <Image
             className="rounded"
             src={data?.posterUrl}
@@ -107,39 +107,8 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
             height={300}
             alt={data?.title}
           />
-          <div className="flex flex-row w-full place-items-center  gap-5">
-            <div className="flex flex-col place-items-end p-5 bg-slate-300 rounded w-full">
-              <div className="flex flex-row items-center gap-1">
-                <StarIcon sx={{ fontSize: 30 }} color="warning" />
-                <h2 className="text-base not-italic font-normal leading-4 text-black-500">
-                  {data?.criticScore}
-                </h2>
-              </div>
-              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
-                Critic Score
-              </h2>
-              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
-                {data?.criticReviewCount} reviews
-              </h2>
-            </div>
-
-            <div className="flex flex-col place-items-start bg-slate-300 p-5 rounded w-full">
-              <div className="flex flex-row items-center gap-1">
-                <h2 className="text-base not-italic font-normal leading-4 text-black-500">
-                  {data?.regularScore}
-                </h2>
-                <StarIcon sx={{ fontSize: 30 }} color="primary" />
-              </div>
-              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
-                Regular Score
-              </h2>
-              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
-                {data?.regularReviewCount} reviews
-              </h2>
-            </div>
-          </div>
         </div>
-        <div className="flex flex-col items-start w-9/12 p-20 gap-3 ">
+        <div className="flex flex-col items-start px-20 gap-3 ">
           <h2 className="text-5xl not-italic font-bold text-gray-900">
             {data?.title}
           </h2>
@@ -177,6 +146,45 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
             {casts.map((crew: ICrewCard) => (
               <CrewCard key={crew.id} user={crew} />
             ))}
+          </div>
+        </div>
+        <div className="flex flex-col place-items-center gap-5">
+          <Button className="flex flex-col w-full place-items-center">
+            <VisibilityIcon />
+            <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+              Watch
+            </h2>
+          </Button>
+          <div className="flex flex-row w-full place-items-center gap-10">
+            <div className="flex flex-col place-items-end p-5 bg-slate-300 w-36 rounded">
+              <div className="flex flex-row items-center gap-1">
+                <StarIcon sx={{ fontSize: 30 }} color="warning" />
+                <h2 className="text-base not-italic font-normal leading-4 text-black-500">
+                  {data?.criticScore}
+                </h2>
+              </div>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                Critic Score
+              </h2>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                {data?.criticReviewCount} reviews
+              </h2>
+            </div>
+
+            <div className="flex flex-col place-items-start bg-slate-300 w-36 p-5 rounded">
+              <div className="flex flex-row items-center gap-1">
+                <h2 className="text-base not-italic font-normal leading-4 text-black-500">
+                  {data?.regularScore}
+                </h2>
+                <StarIcon sx={{ fontSize: 30 }} color="primary" />
+              </div>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                Regular Score
+              </h2>
+              <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
+                {data?.regularReviewCount} reviews
+              </h2>
+            </div>
           </div>
         </div>
       </div>
