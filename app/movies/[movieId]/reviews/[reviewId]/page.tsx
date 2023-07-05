@@ -70,7 +70,7 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
             {movie.title}
           </h2>
         </div>
-        <div className="flex flex-col items-start w-9/12 p-20 gap-3 ">
+        <div className="flex flex-col items-start w-9/12 p-20 gap-3">
           <div className="flex whitespace-nowrap flex-row p-0">
             <Avatar
               className="items-center text-center w-16 h-16"

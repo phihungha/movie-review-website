@@ -117,7 +117,7 @@ export default function Movies() {
             Clear
           </Button>
         </div>
-        <div className="pt-16">
+        <div className="pt-10">
           <Divider className="w-full" />
         </div>
       </div>
