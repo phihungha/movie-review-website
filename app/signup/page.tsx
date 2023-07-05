@@ -9,6 +9,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
+import { Select } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import { SelectChangeEvent } from "@mui/material";
 import Link from "next/link";
 
 //export const metadata = {
@@ -23,7 +26,11 @@ function HandleSignUp() {
 export default function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [userType, setUserType] = React.useState("");
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setUserType(event.target.value);
+  };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -31,7 +38,7 @@ export default function SignUp() {
   };
   return (
     <div className="h-screen flex items-center justify-center ">
-      <div className="shadow-2xl w-2/4 h-100 justify-center items-center gap-10">
+      <div className="w-2/4 h-100 justify-center items-center gap-10">
         <h2 className="text-2xl p-20 text-center not-italic font-bold text-gray-900">
           Sign up
         </h2>
@@ -52,11 +59,33 @@ export default function SignUp() {
         <div className="px-10">
           <TextField
             className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
-            label="Birthday"
+            label="Username"
           />
         </div>
 
-        <div className="p-10">
+        <div className="p-10 w-full">
+          <FormControl className="w-full" sx={{ minWidth: 120 }} size="small">
+            <InputLabel sx={{ my: 1 }} id="demo-select-small-label">
+              User Type
+            </InputLabel>
+            <Select
+              className="h-14"
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              value={userType}
+              label="User Type"
+              onChange={handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={2}>Critic</MenuItem>
+              <MenuItem value={3}>Regular</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
+        <div className="px-10">
           <FormControl className="w-full" variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">
               Password
@@ -81,7 +110,7 @@ export default function SignUp() {
           </FormControl>
         </div>
 
-        <div className="px-10">
+        <div className="p-10">
           <FormControl className="w-full" variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">
               Re-enter password
@@ -94,7 +123,7 @@ export default function SignUp() {
           </FormControl>
         </div>
 
-        <div className="self-center p-10 w-full">
+        <div className="self-center px-10 w-full">
           <Button
             className="px-20 w-full"
             variant="outlined"
@@ -103,7 +132,7 @@ export default function SignUp() {
             Sign up
           </Button>
         </div>
-        <div className="flex flex-row text-start px-10 w-full">
+        <div className="flex flex-row text-start p-10 w-full">
           <h2 className="text-base  pt-0 pb-20 text-center not-italic font-bold text-gray-900">
             Already have an account
           </h2>
