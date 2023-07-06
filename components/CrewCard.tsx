@@ -15,7 +15,7 @@ const CrewCard = ({ user }: { user: ICrewCard }) => {
         className="items-center text-center w-16 h-16"
         src={user.avatar_path}
         alt={user.Name}
-        sx={{ width: 20, height: 20 }}
+        sx={{ width: 60, height: 60 }}
       />
       <h2 className="h-5 not-italic font-normal items-center text-center text-sm leading-6 text-black-100">
         {user.Name}

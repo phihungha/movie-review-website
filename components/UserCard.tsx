@@ -19,7 +19,7 @@ const UserCard = ({ user }: { user: IUserCard }) => {
           className="items-center text-center w-16 h-16"
           src={user.avatarUrl}
           alt={user.name}
-          sx={{ width: 20, height: 20 }}
+          sx={{ width: 60, height: 60 }}
         />
         <div className="flex flex-col justify-center items-start gap-1">
           <h2 className="h-5 not-italic font-normal items-center text-center text-sm leading-6 text-black-100">

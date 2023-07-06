@@ -110,7 +110,7 @@ export default function Movies() {
         <div className=" pt-10 items-end text-end">
           <Button
             className="px-20"
-            color="warning"
+            color="error"
             variant="outlined"
             onClick={HandleClear}
           >

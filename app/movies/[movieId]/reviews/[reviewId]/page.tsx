@@ -76,7 +76,7 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
               className="items-center text-center w-16 h-16"
               src={user.avatar_path}
               alt={user.Name}
-              sx={{ width: 30, height: 30 }}
+              sx={{ width: 60, height: 60 }}
             />
             <div className="flex flex-col justify-center items-center gap-1">
               <h2 className="w-24 h-5 not-italic font-normal items-center text-center text-base leading-6 text-black-100">

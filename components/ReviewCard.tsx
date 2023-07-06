@@ -36,8 +36,10 @@ const ReviewCard = ({ review }: { review: IReviewCard }) => {
   };
   return (
     <Link href={link}>
-      <div className="flex flex-row nowrap p-0">
-        <CrewCard user={user}></CrewCard>
+      <div className="flex flex-row w-full p-0">
+        <div>
+          <CrewCard user={user}></CrewCard>
+        </div>
         <div className="flex flex-col w-full items-start pl-3">
           <h2 className="w-full h-6 not-italic font-bold text-base nowrap leading-6 text-black-100">
             {review.title}
@@ -53,7 +55,7 @@ const ReviewCard = ({ review }: { review: IReviewCard }) => {
               {formatdate}
             </h2>
           </div>
-          <h2 className="not-italic font-normal text-xs text-black-100">
+          <h2 className="not-italic whitespace-pre-line font-normal text-xs text-black-100">
             {review.content}
           </h2>
           <button className="not-italic p-2 items-center font-normal text-xs leading-4 text-black-500">
