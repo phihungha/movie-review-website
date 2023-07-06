@@ -27,7 +27,11 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [userType, setUserType] = React.useState("");
-
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [rePassword, setRePassword] = React.useState("");
   const handleChange = (event: SelectChangeEvent) => {
     setUserType(event.target.value);
   };
@@ -36,6 +40,19 @@ export default function SignUp() {
   ) => {
     event.preventDefault();
   };
+
+  function HandleSignUp(
+    email: string,
+    name: string,
+    userName: string,
+    userType: string,
+    password: string,
+    rePassword: string
+  ) {
+    console.log("api here!");
+    return;
+  }
+
   return (
     <div className="h-screen flex items-center justify-center ">
       <div className="w-2/4 h-100 justify-center items-center gap-10">
@@ -46,6 +63,7 @@ export default function SignUp() {
           <TextField
             className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
             label="Email"
+            value={email}
           />
         </div>
 
@@ -53,6 +71,7 @@ export default function SignUp() {
           <TextField
             className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
             label="Name"
+            value={name}
           />
         </div>
 
@@ -60,6 +79,7 @@ export default function SignUp() {
           <TextField
             className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
             label="Username"
+            value={userName}
           />
         </div>
 
@@ -79,8 +99,8 @@ export default function SignUp() {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={2}>Critic</MenuItem>
-              <MenuItem value={3}>Regular</MenuItem>
+              <MenuItem value="Critic">Critic</MenuItem>
+              <MenuItem value="Regular">Regular</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -93,6 +113,7 @@ export default function SignUp() {
             <OutlinedInput
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
+              value={password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -119,6 +140,7 @@ export default function SignUp() {
               id="outlined-adornment-password"
               type={"password"}
               label="Password"
+              value={rePassword}
             />
           </FormControl>
         </div>
@@ -127,7 +149,16 @@ export default function SignUp() {
           <Button
             className="px-20 w-full"
             variant="outlined"
-            onClick={HandleSignUp}
+            onClick={() =>
+              HandleSignUp(
+                email,
+                name,
+                userName,
+                userType,
+                password,
+                rePassword
+              )
+            }
           >
             Sign up
           </Button>

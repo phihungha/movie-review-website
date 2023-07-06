@@ -18,13 +18,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en">
       <SwrProvider>
         <Body>{children}</Body>
-        <footer>
-          <div className="place-content-center py-10 px-20 w-full">
-            <h2 className="text-base text-center not-italic text-gray-900">
-              Created by Ha Phi Hung - Le Quang Trung
-            </h2>
-          </div>
-        </footer>
       </SwrProvider>
     </html>
   );
@@ -35,6 +28,17 @@ function Body({ children }: RootLayoutProps) {
     <body className={`${inter.className} p-0`}>
       <NavBar />
       {children}
+      <Footer />
     </body>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="place-content-center py-10 w-full">
+      <h2 className="text-base text-center not-italic text-gray-900">
+        Created by Ha Phi Hung - Le Quang Trung
+      </h2>
+    </footer>
   );
 }

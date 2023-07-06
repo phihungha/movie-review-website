@@ -1,5 +1,5 @@
 "use client";
-
+import * as React from "react";
 import CrewCard, { ICrewCard } from "@/components/CrewCard";
 import ReviewCard, { IReviewCard } from "@/components/ReviewCard";
 import Divider from "@mui/material/Divider";
@@ -28,14 +28,21 @@ type Cast = {
   movieId: string;
   crewId: string;
   characterName: string;
+  crew: Crew;
+};
+
+type Crew = {
+  id: string;
+  name: string;
+  avatarUrl: string;
 };
 
 function ChangeType(director: Director, role: string): ICrewCard {
   const crew: ICrewCard = {
     id: director.id,
-    Name: director.name,
+    name: director.name,
     role: role,
-    avatar_path: director.avatarUrl,
+    avatarUrl: director.avatarUrl,
   };
   return crew;
 }
@@ -43,9 +50,9 @@ function ChangeType(director: Director, role: string): ICrewCard {
 function ChangeTypeCast(cast: Cast): ICrewCard {
   const crew: ICrewCard = {
     id: cast.crewId,
-    Name: "",
+    name: cast.crew.name,
     role: cast.characterName,
-    avatar_path: "",
+    avatarUrl: cast.crew.avatarUrl,
   };
   return crew;
 }
@@ -69,6 +76,9 @@ function MovieReviews({ params }: MovieDetailsProps) {
 
 export default function MovieDetails({ params }: MovieDetailsProps) {
   const { data, error } = useSWR(`/movies/${params.movieId}`);
+  const [rating, setRating] = React.useState<number | null>(0);
+  const [reviewTitle, setReviewTitle] = React.useState("");
+  const [reviewContent, setReviewContent] = React.useState("");
   const formatyear = new Date(data?.releaseDate).getFullYear().toString();
   const genres: Genre[] = [];
   const crews: ICrewCard[] = [];
@@ -92,7 +102,16 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
   data?.genres.map((genre: Genre) => genres.push(genre));
   const link = "/movies/" + params.movieId + "/reviews";
 
-  function HandleSubmit() {
+  function HandleSubmit(
+    reviewTitle: string,
+    reviewContent: string,
+    rating: number | null
+  ) {
+    console.log("api here!");
+    return;
+  }
+
+  function HandleWatch() {
     console.log("api here!");
     return;
   }
@@ -149,7 +168,11 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           </div>
         </div>
         <div className="flex flex-col place-items-center gap-5">
-          <Button className="flex flex-col w-full place-items-center">
+          <Button
+            className="flex flex-col w-full place-items-center"
+            variant="outlined"
+            onClick={HandleWatch}
+          >
             <VisibilityIcon />
             <h2 className="py-1 text-base not-italic font-normal leading-4 text-black-500">
               Watch
@@ -202,21 +225,32 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           <TextField
             className="w-full not-italic font-bold text-base leading-6 text-gray-100"
             label="Review Title"
+            value={reviewTitle}
           />
           <TextField
             className="w-full"
             id="description"
             label="Description"
+            value={reviewContent}
             multiline
             rows={4}
           />
           <div className="flex flex-row items-center gap-10 p-0 h-6">
-            <Rating size="medium" value={4.5} max={10} />
+            <Rating
+              size="medium"
+              value={rating}
+              onChange={(event, rating) => setRating(rating)}
+              max={10}
+            />
           </div>
         </div>
       </div>
       <div className="px-20 pt-10 items-end text-end">
-        <Button className="px-20" variant="outlined" onClick={HandleSubmit}>
+        <Button
+          className="px-20"
+          variant="outlined"
+          onClick={() => HandleSubmit(reviewTitle, reviewContent, rating)}
+        >
           Submit
         </Button>
       </div>

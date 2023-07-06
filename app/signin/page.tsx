@@ -14,20 +14,21 @@ import Link from "next/link";
 //  title: "Sign In",
 //};
 
-function HandleSignin() {
-  console.log("api here!");
-  return;
-}
-
 export default function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
+
+  function HandleSignin(email: string, password: string) {
+    console.log("api here!");
+    return;
+  }
   return (
     <div className="h-screen flex items-center justify-center ">
       <div className="shadow-2xl w-2/4 h-100 justify-center items-center gap-10">
@@ -38,6 +39,7 @@ export default function SignIn() {
           <TextField
             className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
             label="Email"
+            value={email}
           />
         </div>
         <div className="p-10">
@@ -48,6 +50,7 @@ export default function SignIn() {
             <OutlinedInput
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
+              value={password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -68,7 +71,7 @@ export default function SignIn() {
           <Button
             className="px-20 w-full"
             variant="outlined"
-            onClick={HandleSignin}
+            onClick={() => HandleSignin(email, password)}
           >
             Sign in
           </Button>
