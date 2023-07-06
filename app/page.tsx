@@ -6,7 +6,7 @@ export default async function Home() {
   const recentMovies: MovieData[] = await serverFetch("/recentMovies");
   return (
     <div>
-      <div className="flex flex-col place-content-center content-center h-96 w-full bg-gradient-to-r from-cyan-500 to-blue-500">
+      <div className="flex flex-col place-content-center content-center h-96 w-full bg-no-repeat bg-cover bg-[url('https://steamuserimages-a.akamaihd.net/ugc/2035104110937567043/68FD6097C778B56F885FA73C13788301B36270CC/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=#000000&letterbox=false')]">
         <h2 className="text-4xl pt-0 px-20 not-italic self-center font-bold text-gray-900">
           Cinerate
         </h2>
