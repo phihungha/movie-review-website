@@ -1,5 +1,7 @@
 "use client";
 import Avatar from "@mui/material/Avatar";
+import ReviewCard, { IReviewCard } from "@/components/ReviewCard";
+import MovieCard, { MovieData } from "@/components/MovieCard";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -88,29 +90,48 @@ export default function UserDetails({ params }: UserDetailsProps) {
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-center w-full gap-10 p-20 h-6">
-        <Link href={linkAll}>
-          <div className="self-center">
-            <Button className="px-20" variant="outlined">
-              All Reviews
-            </Button>
-          </div>
-        </Link>
-        <Link href={linkThanked}>
-          <div className="self-center">
-            <Button className="px-20" variant="outlined">
-              Thanked Reviews
-            </Button>
-          </div>
-        </Link>
-        <Link href={linkViewed}>
-          <div className="self-center">
-            <Button className="px-20" variant="outlined">
-              Viewed Movies
-            </Button>
-          </div>
-        </Link>
+
+      <h2 className="text-2xl pt-10 px-20 not-italic font-bold text-gray-900">
+        Reviews
+      </h2>
+      <div className="grid place-items-start grid-rows-1 pb-10 pt-10 gap-10 px-20 justify-start">
+        {data?.reviews.map((review: IReviewCard) => (
+          <ReviewCard key={review.id} review={review} />
+        ))}
       </div>
+      <Link href={linkAll}>
+        <h2 className="text-xl pt-0 px-20 pb-20 text-center not-italic font-bold text-gray-900">
+          All Reviews
+        </h2>
+      </Link>
+
+      <h2 className="text-2xl pt-10 px-20 not-italic font-bold text-gray-900">
+        Thanked Reviews
+      </h2>
+      <div className="grid place-items-start grid-rows-1 pb-10 pt-10 gap-10 px-20 justify-start">
+        {data?.reviewThanks.map((review: IReviewCard) => (
+          <ReviewCard key={review.id} review={review} />
+        ))}
+      </div>
+      <Link href={linkThanked}>
+        <h2 className="text-xl pt-0 px-20 pb-20 text-center not-italic font-bold text-gray-900">
+          All Reviews
+        </h2>
+      </Link>
+
+      <h2 className="text-2xl pt-10 px-20 not-italic font-bold text-gray-900">
+        Viewed Movies
+      </h2>
+      <div className="grid place-items-start grid-rows-1 pb-10 pt-10 gap-10 px-20 justify-start">
+        {data?.viewedMovies.map((movie: MovieData) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
+      <Link href={linkViewed}>
+        <h2 className="text-xl pt-0 px-20 pb-20 text-center not-italic font-bold text-gray-900">
+          All Movies
+        </h2>
+      </Link>
     </div>
   );
 }
