@@ -6,7 +6,7 @@ import CrewCard, { ICrewCard } from "@/components/CrewCard";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import useSWR from "swr";
 
-export interface IReviewCard {
+export interface ReviewData {
   id: number;
   authorId: string;
   movieId: number;
@@ -17,7 +17,7 @@ export interface IReviewCard {
   thankCount: number;
 }
 
-const ReviewCard = ({ review }: { review: IReviewCard }) => {
+const ReviewCard = ({ review }: { review: ReviewData }) => {
   const link = "/movies/" + review.movieId + "/reviews/" + review.id;
   const { data, error } = useSWR(`/users/${review.authorId}`);
   const formatscore = review.score;
@@ -30,9 +30,9 @@ const ReviewCard = ({ review }: { review: IReviewCard }) => {
   });
   const user: ICrewCard = {
     id: data?.id,
-    Name: data?.username,
+    name: data?.username,
     role: data?.userType,
-    avatar_path: data?.avatarUrl,
+    avatarUrl: data?.avatarUrl,
   };
   return (
     <Link href={link}>

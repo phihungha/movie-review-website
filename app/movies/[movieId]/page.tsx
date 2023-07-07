@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import CrewCard, { ICrewCard } from "@/components/CrewCard";
-import ReviewCard, { IReviewCard } from "@/components/ReviewCard";
+import ReviewCard, { ReviewData } from "@/components/ReviewCard";
 import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import Image from "next/image";
@@ -294,7 +294,7 @@ function MovieReviews({ params }: MovieDetailsProps) {
   const { data } = useSWR(`/movies/${params.movieId}/reviews`);
   return (
     <div className="grid grid-rows-1 place-items-start justify-start gap-10 px-20 pb-10 pt-10">
-      {data?.map((review: IReviewCard) => (
+      {data?.map((review: ReviewData) => (
         <ReviewCard key={review.id} review={review} />
       ))}
     </div>

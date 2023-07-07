@@ -1,6 +1,6 @@
 "use client";
 import { MovieData } from "@/components/MovieCard";
-import ReviewCard, { IReviewCard } from "@/components/ReviewCard";
+import ReviewCard, { ReviewData } from "@/components/ReviewCard";
 import Image from "next/image";
 import useSWR from "swr";
 
@@ -46,7 +46,7 @@ export default function Reviews({ params }: MovieDetailsProps) {
         </h2>
       </div>
       <div className="grid w-4/6 grid-rows-1 place-items-start justify-start gap-10 px-20 pb-10 pt-0">
-        {data?.map((review: IReviewCard) => (
+        {data?.map((review: ReviewData) => (
           <ReviewCard key={review.id} review={review} />
         ))}
       </div>
