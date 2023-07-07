@@ -1,7 +1,8 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import NavBar from "@/components/NavBar";
-import { SwrProvider } from "./components/SwrProvider";
+import { SwrProvider } from "@/components/Providers/SwrProvider";
+import Footer from "@/components/Footer";
+import NavBar from "@/components/NavBar/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,15 +31,5 @@ function Body({ children }: RootLayoutProps) {
       {children}
       <Footer />
     </body>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="place-content-center py-10 w-full">
-      <h2 className="text-base text-center not-italic text-gray-900">
-        Created by Ha Phi Hung - Le Quang Trung
-      </h2>
-    </footer>
   );
 }

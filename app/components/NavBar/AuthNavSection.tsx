@@ -1,12 +1,12 @@
 "use client";
 
-import { appSignOut } from "@/app/lib/auth";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NavBarText } from "../Texts/NavBarText";
-import { Button } from "@mui/material";
+import { appSignOut } from "@/lib/auth";
+import { NavBarButton } from "./NavBarButton";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,44 +25,43 @@ export default function NavBar() {
   });
 
   return (
-    <nav className="flex gap-5 justify-end p-5">
+    <>
       {isLoggedIn ? (
-        <LoggedInSegment fullName={userFullName} />
+        <LoggedInSegment userFullName={userFullName} />
       ) : (
         <NonLoggedInSegment />
       )}
-    </nav>
+    </>
   );
 }
 
 function NonLoggedInSegment() {
   return (
     <>
-      <Button>
+      <NavBarButton>
         <Link href="/signup">Sign up</Link>
-      </Button>
-      <Link href="/signin">Sign in</Link>
+      </NavBarButton>
+      <NavBarButton>
+        <Link href="/signin">Sign in</Link>
+      </NavBarButton>
     </>
   );
 }
 
-function LoggedInSegment({ fullName }: { fullName: string | null }) {
+function LoggedInSegment({ userFullName }: { userFullName: string | null }) {
   const router = useRouter();
+
+  const onSignOut = async () => {
+    await appSignOut();
+    router.refresh();
+  };
 
   return (
     <>
       <Link href="/personal">
-        <NavBarText>Welcome, {fullName}</NavBarText>
+        <NavBarText>Welcome, {userFullName}</NavBarText>
       </Link>
-      <Button
-        variant="outlined"
-        onClick={async () => {
-          await appSignOut();
-          router.replace("/");
-        }}
-      >
-        Sign out
-      </Button>
+      <NavBarButton onClick={onSignOut}>Sign out</NavBarButton>
     </>
   );
 }
