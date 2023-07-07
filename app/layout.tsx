@@ -28,7 +28,7 @@ function Body({ children }: RootLayoutProps) {
   return (
     <body className={`${inter.className} flex min-h-screen flex-col p-0`}>
       <NavBar />
-      <div className="flex flex-1 flex-col">{children}</div>
+      <div className="flex flex-1 flex-col p-14">{children}</div>
       <Footer />
     </body>
   );
