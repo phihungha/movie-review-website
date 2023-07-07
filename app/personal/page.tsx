@@ -5,7 +5,7 @@ import ReviewCard from "@/components/ReviewCard";
 import MovieCard, { MovieData } from "@/components/MovieCard";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import { Divider } from "@mui/material";
+import { CircularProgress, Divider } from "@mui/material";
 import Link from "next/link";
 import useSWR from "swr";
 import SectionText from "@/components/Texts/SectionText";
@@ -15,6 +15,14 @@ import { ReviewData } from "@/types/ReviewData";
 
 export default function Personal() {
   const { data } = useSWR<UserData>("/personal");
+
+  if (!data) {
+    return <CircularProgress />;
+  }
+  return <PersonalWithData data={data} />;
+}
+
+function PersonalWithData({ data }: { data: UserData }) {
   const userId = data?.id;
 
   return (
