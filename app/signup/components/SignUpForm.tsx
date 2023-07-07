@@ -151,6 +151,7 @@ export default function SignInForm() {
 
       {displaySuccess && (
         <SuccessSnackbar
+          message="Signed up successfully!"
           onClose={() => setDisplaySuccess(false)}
           display={displaySuccess}
         />

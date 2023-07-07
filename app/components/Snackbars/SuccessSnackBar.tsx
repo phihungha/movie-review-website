@@ -5,10 +5,15 @@ import Snackbar from "@mui/material/Snackbar";
 
 export interface SuccessSnackbarProps {
   display: boolean;
+  message: string;
   onClose: () => void;
 }
 
-export function SuccessSnackbar({ display, onClose }: SuccessSnackbarProps) {
+export function SuccessSnackbar({
+  display,
+  message,
+  onClose,
+}: SuccessSnackbarProps) {
   return (
     <Snackbar
       open={display}
@@ -17,7 +22,7 @@ export function SuccessSnackbar({ display, onClose }: SuccessSnackbarProps) {
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
     >
       <Alert sx={{ width: "100%" }} severity="success">
-        Signed up successfully
+        {message}
       </Alert>
     </Snackbar>
   );

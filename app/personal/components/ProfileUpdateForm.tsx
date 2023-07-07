@@ -1,10 +1,11 @@
 "use client";
 
 import PasswordField from "@/components/Inputs/PasswordField";
+import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
 import { updateFirebaseUser } from "@/lib/auth";
 import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 import { UserData } from "@/types/UserData";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -44,8 +45,14 @@ export function ProfileUpdateForm() {
 
   const onReset = () => mutate();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [displaySuccess, setDisplaySuccess] = useState(false);
+
   const onSave = async () => {
+    setIsLoading(true);
     await updateProfile(name, email, username, password);
+    setIsLoading(false);
+    setDisplaySuccess(true);
     mutate();
   };
 
@@ -92,10 +99,23 @@ export function ProfileUpdateForm() {
         >
           Reset
         </Button>
-        <Button className="px-20" onClick={onSave} variant="outlined">
-          Save
-        </Button>
+
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <Button className="px-20" onClick={onSave} variant="outlined">
+            Save
+          </Button>
+        )}
       </div>
+
+      {displaySuccess && (
+        <SuccessSnackbar
+          message="Profile updated!"
+          onClose={() => setDisplaySuccess(false)}
+          display={displaySuccess}
+        />
+      )}
     </div>
   );
 }
