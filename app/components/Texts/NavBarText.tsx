@@ -1,5 +1,5 @@
-import { TextProps } from "@/app/props/TextProps";
+import { TextProps } from "@/props/TextProps";
 
-export function NavBarText({ children }: TextProps) {
-  return <p className="text-white">{children}</p>;
+export default function NavBarText({ children }: TextProps) {
+  return <p className="font-bold text-white">{children}</p>;
 }

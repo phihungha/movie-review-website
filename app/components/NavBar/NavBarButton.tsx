@@ -1,8 +1,13 @@
 "use client";
 
 import { Button, ButtonProps } from "@mui/material";
-import React from "react";
 
 export function NavBarButton(props: ButtonProps) {
-  return <Button variant="outlined" {...props} />;
+  return (
+    <Button
+      variant="contained"
+      className="px-3 py-1 bg-white text-black hover:bg-white normal-case font-bold"
+      {...props}
+    />
+  );
 }
