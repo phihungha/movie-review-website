@@ -1,6 +1,7 @@
 "use client";
 import { MovieData } from "@/components/MovieCard";
-import ReviewCard, { ReviewData } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
+import { ReviewData } from "@/types/ReviewData";
 import Image from "next/image";
 import useSWR from "swr";
 

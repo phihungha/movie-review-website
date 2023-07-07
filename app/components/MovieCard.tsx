@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 import StarIcon from "@mui/icons-material/Star";
 import Link from "next/link";
+import { ReviewData } from "@/types/ReviewData";
 
 export interface MovieData {
   id: number;
@@ -12,6 +13,7 @@ export interface MovieData {
   posterUrl: string;
   criticScore: number;
   regularScore: number;
+  reviews?: ReviewData[];
 }
 
 export default function MovieCard({ movie }: { movie: MovieData }) {
