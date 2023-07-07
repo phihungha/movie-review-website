@@ -1,6 +1,11 @@
 "use client";
 
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import "./firebase";
 
 export function getCurrentUser() {
@@ -33,4 +38,14 @@ export async function appSignIn(email: string, password: string) {
  */
 export async function appSignOut() {
   await signOut(getAuth());
+}
+
+/**
+ * Create Firebase user
+ * @param email Email
+ * @param password Password
+ * @returns Firebase user info
+ */
+export async function createFirebaseUser(email: string, password: string) {
+  return await createUserWithEmailAndPassword(getAuth(), email, password);
 }

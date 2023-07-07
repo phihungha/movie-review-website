@@ -7,23 +7,49 @@ import { useRouter } from "next/navigation";
 import PasswordField from "@/components/Inputs/PasswordField";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { UserType } from "@/types/UserType";
+import { axiosInstance } from "@/lib/client-api";
+import { createFirebaseUser } from "@/lib/auth";
+
+async function signUp(
+  name: string,
+  userName: string,
+  email: string,
+  userType: UserType,
+  password: string,
+  blogUrl: string
+) {
+  const cred = await createFirebaseUser(email, password);
+  const idToken = await cred.user.getIdToken();
+  await axiosInstance.post("/personal", {
+    body: {
+      userName,
+      name,
+      type: userType,
+      blogUrl,
+    },
+    headers: `Bearer ${idToken}`,
+  });
+}
 
 export default function SignInForm() {
   const [name, setName] = React.useState("");
   const [userName, setUserName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [userType, setUserType] = React.useState<UserType>("Regular");
+  const [blogUrl, setBlogUrl] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rePassword, setRePassword] = React.useState("");
 
   const router = useRouter();
   const onSignUp = async () => {
+    await signUp(name, userName, email, userType, password, blogUrl);
     router.replace("/signin");
   };
 
   return (
     <div className="flex flex-col items-center justify-center gap-6">
       <TextField
+        required
         className="w-full"
         label="Name"
         value={name}
@@ -32,6 +58,7 @@ export default function SignInForm() {
 
       <TextField
         className="w-full"
+        required
         label="Username"
         value={userName}
         onChange={(i) => setUserName(i.target.value)}
@@ -39,6 +66,7 @@ export default function SignInForm() {
 
       <TextField
         className="w-full"
+        required
         label="Email"
         value={email}
         onChange={(i) => setEmail(i.target.value)}
@@ -59,14 +87,28 @@ export default function SignInForm() {
         </Select>
       </FormControl>
 
+      {userType === "Critic" && (
+        <TextField
+          className="w-full"
+          required
+          label="Website URL"
+          value={blogUrl}
+          onChange={(i) => setBlogUrl(i.target.value)}
+        />
+      )}
+
       <PasswordField
+        required
         password={password}
         onPasswordChanged={(i) => setPassword(i)}
       />
 
       <PasswordField
+        required
         label="Re-enter password"
+        helperText="Password does not match"
         password={rePassword}
+        error={password !== "" && password !== rePassword}
         onPasswordChanged={(i) => setRePassword(i)}
       />
 

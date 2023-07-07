@@ -7,13 +7,22 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  FormHelperText,
 } from "@mui/material";
 import { useState } from "react";
 
 export interface PasswordFieldProps {
   password: string;
   label?: string;
+  error?: boolean;
+  helperText?: string;
+  required?: boolean;
   onPasswordChanged: (p: string) => void;
+}
+
+function getLabel(label?: string, required?: boolean) {
+  const labelText = label ?? "Password";
+  return labelText + (required && " *");
 }
 
 export default function PasswordField(props: PasswordFieldProps) {
@@ -23,12 +32,14 @@ export default function PasswordField(props: PasswordFieldProps) {
   return (
     <FormControl className="w-full" variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">
-        {props.label ?? "Password"}
+        {getLabel(props.label, props.required)}
       </InputLabel>
       <OutlinedInput
         id="outlined-adornment-password"
         type={showPassword ? "text" : "password"}
         value={props.password}
+        required={props.required}
+        error={props.error}
         onChange={(i) => props.onPasswordChanged(i.target.value)}
         endAdornment={
           <InputAdornment position="end">
@@ -42,8 +53,13 @@ export default function PasswordField(props: PasswordFieldProps) {
             </IconButton>
           </InputAdornment>
         }
-        label={props.label ?? "Password"}
+        label={getLabel(props.label, props.required)}
       />
+      {props.error && props.helperText && (
+        <FormHelperText error id="password-field-error">
+          {props.helperText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }
