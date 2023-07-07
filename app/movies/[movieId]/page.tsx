@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import CrewCard, { ICrewCard } from "@/components/CrewCard";
-import ReviewCard, { ReviewData } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
 import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import useSWR from "swr";
 import { axiosInstance, getAuthHeader } from "@/lib/client-api";
+import { ReviewData } from "@/types/ReviewData";
 
 async function postReview(
   movieId: string,
@@ -113,11 +114,9 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
               </h2>
             ))}
           </div>
-          <div>
-            <h2 className="text-black-100 whitespace-pre-line text-lg font-normal not-italic leading-4">
-              {data?.synopsis}
-            </h2>
-          </div>
+          <h2 className="text-black-100 whitespace-pre-line text-lg font-normal not-italic leading-4">
+            {data?.synopsis}
+          </h2>
           <Divider className="w-full" />
           <h2 className="pb-2 pt-0 text-center text-xl font-bold not-italic text-gray-900">
             Crews
@@ -128,7 +127,7 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
             ))}
           </div>
           <h2 className="pb-2 pt-0 text-center text-xl font-bold not-italic text-gray-900">
-            Casts
+            Cast
           </h2>
           <div className="flex h-40 w-full flex-row gap-4 overflow-auto p-0">
             {casts.map((crew: ICrewCard) => (
