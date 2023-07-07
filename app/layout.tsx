@@ -26,9 +26,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
 function Body({ children }: RootLayoutProps) {
   return (
-    <body className={`${inter.className} p-0`}>
+    <body className={`${inter.className} flex min-h-screen flex-col p-0`}>
       <NavBar />
-      {children}
+      <div className="flex flex-1 flex-col">{children}</div>
       <Footer />
     </body>
   );

@@ -1,96 +1,21 @@
-"use client";
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Button from "@mui/material/Button";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { appSignIn } from "../lib/auth";
-//export const metadata = {
-//  title: "Sign In",
-//};
+import { LinkText } from "@/components/Texts/LinkText";
+import SignInForm from "./components/SignInForm";
+
+export const metadata = {
+  title: "Sign In",
+};
 
 export default function SignIn() {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const router = useRouter();
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  async function HandleSignin(email: string, password: string) {
-    await appSignIn(email, password);
-    router.back();
-    return;
-  }
   return (
-    <div className="h-screen flex items-center justify-center ">
-      <div className="shadow-2xl w-2/4 h-100 justify-center items-center gap-10">
-        <h2 className="text-2xl p-20 text-center not-italic font-bold text-gray-900">
-          Sign in
-        </h2>
-        <div className="px-10">
-          <TextField
-            className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
-            label="Email"
-            value={email}
-            onChange={(i) => setEmail(i.target.value)}
-          />
-        </div>
-        <div className="p-10">
-          <FormControl className="w-full" variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(i) => setPassword(i.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-        </div>
-        <div className="self-center px-10 w-full">
-          <Button
-            className="px-20 w-full"
-            variant="outlined"
-            onClick={() => HandleSignin(email, password)}
-          >
-            Sign in
-          </Button>
-        </div>
-        <div className="flex flex-row text-start px-10 w-full">
-          <h2 className="text-base  pt-10 pb-20 text-center not-italic font-bold text-gray-900">
-            Didn’t have an account
-          </h2>
-          <Link href="/signup">
-            <h2 className="text-base pr-20 pt-10 pb-20 text-center not-italic font-bold text-gray-900">
-              , sign up
-            </h2>
-          </Link>
+    <div className="flex h-full flex-1 items-center justify-center">
+      <div className="flex w-2/4 flex-col items-stretch justify-center gap-10 p-7 shadow-2xl">
+        <h2 className="p-7 text-center text-4xl font-bold">Sign in</h2>
+        <SignInForm />
+        <div className="flex justify-center">
+          <p>
+            Don&apos;t have an account?{" "}
+            <LinkText href="/signup">Sign up now!</LinkText>
+          </p>
         </div>
       </div>
     </div>
