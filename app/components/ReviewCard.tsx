@@ -1,35 +1,49 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { ReviewData } from "@/types/ReviewData";
 import { dateToFullFormat } from "@/utils/time-conversion";
 import VerticalUserCard from "./Card/VerticalUserCard";
 import { ReviewScoreIndicator } from "./Display/ReviewScoreIndicator";
 import { Button } from "@mui/material";
-import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 
-async function thankReview(reviewId: number) {
-  await axiosInstance.put(
-    `/reviews/${reviewId}/thanks`,
+async function thankReview(url: string) {
+  const resp = await axiosInstance.put(
+    url,
     {},
     { headers: await getAuthHeader() }
   );
+  return resp.data;
 }
 
 const ReviewCard = ({ review }: { review: ReviewData }) => {
   const url = `/movies/${review.movieId}/reviews/${review.id}`;
 
-  const { data, mutate } = useSWR<ReviewData>(`/reviews/${review.id}`);
+  const { data, trigger } = useSWRMutation<ReviewData>(
+    `/reviews/${review.id}/thanks`,
+    thankReview
+  );
+
+  const [isThanked, setIsThanked] = useState(review.isThanked);
+  const [thankCount, setThankCount] = useState(review.thankCount);
+  useEffect(() => {
+    if (data) {
+      setIsThanked(data?.isThanked);
+      setThankCount(data?.thankCount ?? 0);
+    }
+  }, [data]);
 
   const onThank = async () => {
-    await thankReview(review.id);
-    mutate();
+    await trigger();
   };
 
   return (
-    <div className="flex w-full flex-row gap-7 rounded-xl border border-black p-5 shadow-lg">
-      <VerticalUserCard user={review.author}></VerticalUserCard>
+    <div className="flex w-full items-center gap-7 rounded-xl border border-black p-5 shadow-lg">
+      <div className="w-32">
+        <VerticalUserCard user={review.author}></VerticalUserCard>
+      </div>
 
       <div className="flex flex-col items-start gap-2">
         <Link href={url}>
@@ -45,12 +59,11 @@ const ReviewCard = ({ review }: { review: ReviewData }) => {
 
         <Button
           onClick={onThank}
-          className={data?.isThanked ? "bg-blue-500" : ""}
-          variant={data?.isThanked ? "contained" : "outlined"}
+          className={isThanked ? "bg-blue-500" : ""}
+          variant={isThanked ? "contained" : "outlined"}
           startIcon={<ThumbUpOffAltIcon fontSize="small" />}
         >
-          {data?.thankCount ?? 0}{" "}
-          {data && data.thankCount > 0 ? "thanks" : "thank"}
+          {thankCount} {thankCount > 0 ? "thanks" : "thank"}
         </Button>
       </div>
     </div>
