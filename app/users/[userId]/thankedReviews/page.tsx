@@ -1,6 +1,6 @@
 "use client";
-import { ICrewCard } from "@/components/CrewCard";
-import ReviewCard, { ReviewData } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
+import { ReviewData } from "@/types/ReviewData";
 import useSWR from "swr";
 
 interface UserDetailsProps {
@@ -10,7 +10,7 @@ interface UserDetailsProps {
 }
 
 export default function UserThankedReviews({ params }: UserDetailsProps) {
-  const { data, error } = useSWR(`/users/${params.userId}/thanked-reviews`);
+  const { data } = useSWR(`/users/${params.userId}/thanked-reviews`);
   return (
     <div className="grid grid-rows-1 place-items-start justify-start gap-10 px-20 pb-10 pt-10">
       {data?.map((review: ReviewData) => (

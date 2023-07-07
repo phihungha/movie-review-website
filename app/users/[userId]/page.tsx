@@ -1,12 +1,13 @@
 "use client";
 import Avatar from "@mui/material/Avatar";
-import ReviewCard, { ReviewData } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
 import MovieCard, { MovieData } from "@/components/MovieCard";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import useSWR from "swr";
+import { ReviewData } from "@/types/ReviewData";
 
 interface UserDetailsProps {
   params: {
@@ -15,11 +16,11 @@ interface UserDetailsProps {
 }
 
 export default function UserDetails({ params }: UserDetailsProps) {
-  const { data, error } = useSWR(`/users/${params.userId}`);
-  const formatdate = new Date(data?.dateOfBirth).toLocaleDateString();
+  const { data } = useSWR(`/users/${params.userId}`);
   const linkAll = "/users/" + params.userId + "/reviews";
   const linkThanked = "/users/" + params.userId + "/thankedReviews";
   const linkViewed = "/users/" + params.userId + "/viewedMovies";
+
   return (
     <div className="items-center justify-center py-20">
       <div className="flex w-full flex-row place-items-center px-20 py-20">
@@ -55,19 +56,6 @@ export default function UserDetails({ params }: UserDetailsProps) {
               className="w-full p-0 text-base font-bold not-italic leading-6 text-gray-100"
               label="Name"
               defaultValue={data?.name}
-              variant="filled"
-              InputProps={{
-                readOnly: true,
-              }}
-              InputLabelProps={{ shrink: true }}
-            />
-          </div>
-
-          <div className="w-full px-10">
-            <TextField
-              className="w-full p-0 text-base font-bold not-italic leading-6 text-gray-100"
-              label="Birthday"
-              defaultValue={formatdate}
               variant="filled"
               InputProps={{
                 readOnly: true,
