@@ -17,7 +17,7 @@ export default function MovieList() {
   );
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 px-24">
       <MovieListOptionsBar
         options={options}
         onOptionsChanged={(i) => setOptions(i)}

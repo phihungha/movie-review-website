@@ -32,8 +32,8 @@ export default function MovieListOptionsBar({
   };
 
   return (
-    <div className="flexCol flex gap-5">
-      <div className="flex justify-center gap-5">
+    <div className="flexCol flex items-stretch gap-5">
+      <div className="flex flex-1 justify-stretch gap-5">
         <TextField
           className="w-full"
           id="input-search"
