@@ -14,6 +14,8 @@ import Link from "next/link";
 import useSWR from "swr";
 import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 import { ReviewData } from "@/types/ReviewData";
+import { CircularProgress } from "@mui/material";
+import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
 
 async function postReview(
   movieId: string,
@@ -72,12 +74,24 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
   const [reviewTitle, setReviewTitle] = React.useState("");
   const [reviewContent, setReviewContent] = React.useState("");
 
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [displaySuccess, setDisplaySuccess] = React.useState(false);
+
   async function onReviewSubmit() {
     if (!score) {
       return;
     }
-    await postReview(movieId, reviewTitle, reviewContent, score);
-    mutate();
+
+    setIsLoading(true);
+    try {
+      await postReview(movieId, reviewTitle, reviewContent, score);
+      mutate();
+      setDisplaySuccess(true);
+    } catch (err) {
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function onWatchPressed() {
@@ -216,13 +230,17 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
         </div>
       </div>
       <div className="items-end px-20 pt-10 text-end">
-        <Button
-          className="px-20"
-          variant="outlined"
-          onClick={() => onReviewSubmit()}
-        >
-          Submit
-        </Button>
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <Button
+            className="px-20"
+            variant="outlined"
+            onClick={() => onReviewSubmit()}
+          >
+            Submit
+          </Button>
+        )}
       </div>
       <h2 className="px-20 pt-20 text-2xl font-bold not-italic text-gray-900">
         Reviews
@@ -235,6 +253,14 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           All Reviews
         </h2>
       </Link>
+
+      {displaySuccess && (
+        <SuccessSnackbar
+          message="Review posted!"
+          onClose={() => setDisplaySuccess(false)}
+          display={displaySuccess}
+        />
+      )}
     </div>
   );
 }

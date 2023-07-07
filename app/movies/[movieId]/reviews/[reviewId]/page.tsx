@@ -11,6 +11,8 @@ import useSWR from "swr";
 import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import CircularProgress from "@mui/material/CircularProgress";
+import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
 
 async function editReview(
   reviewId: string,
@@ -61,17 +63,39 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
     setReviewScore(data?.score);
   }, [data]);
 
+  const [editIsLoading, setEditIsLoading] = React.useState(false);
+  const [displayEditSuccess, setDisplayEditSuccess] = React.useState(false);
+
   async function onReviewEdit() {
     if (!reviewScore) {
       return;
     }
-    await editReview(reviewId, reviewTitle, reviewContent, reviewScore);
-    mutate();
+    setEditIsLoading(true);
+    try {
+      await editReview(reviewId, reviewTitle, reviewContent, reviewScore);
+      mutate();
+      setDisplayEditSuccess(true);
+    } catch (err) {
+      throw err;
+    } finally {
+      setEditIsLoading(false);
+    }
   }
 
+  const [deleteIsLoading, setDeleteIsLoading] = React.useState(false);
+  const [displayDeleteSuccess, setDisplayDeleteSuccess] = React.useState(false);
+
   async function onReviewDelete() {
-    await deleteReview(reviewId);
-    router.replace(`/movies/${movie?.id}`);
+    setDeleteIsLoading(true);
+    try {
+      await deleteReview(reviewId);
+      setDisplayDeleteSuccess(true);
+      router.replace(`/movies/${movie?.id}`);
+    } catch (err) {
+      throw err;
+    } finally {
+      setDeleteIsLoading(false);
+    }
   }
 
   return (
@@ -142,18 +166,38 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
                 Delete
               </Button>
             </div>
-            <div className="self-center">
-              <Button
-                className="px-20"
-                variant="outlined"
-                onClick={() => onReviewEdit()}
-              >
-                Save
-              </Button>
-            </div>
+
+            {editIsLoading ? (
+              <CircularProgress />
+            ) : (
+              <div className="self-center">
+                <Button
+                  className="px-20"
+                  variant="outlined"
+                  onClick={() => onReviewEdit()}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      {displayEditSuccess && (
+        <SuccessSnackbar
+          message="Review edited!"
+          onClose={() => setDisplayEditSuccess(false)}
+          display={displayEditSuccess}
+        />
+      )}
+
+      {displayDeleteSuccess && (
+        <SuccessSnackbar
+          message="Review deleted!"
+          onClose={() => setDisplayDeleteSuccess(false)}
+          display={displayDeleteSuccess}
+        />
+      )}
     </div>
   );
 }

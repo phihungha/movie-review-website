@@ -1,17 +1,17 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { ReviewData } from "@/types/ReviewData";
 import { dateToFullFormat } from "@/utils/time-conversion";
 import VerticalUserCard from "./Card/VerticalUserCard";
 import { ReviewScoreIndicator } from "./Display/ReviewScoreIndicator";
 import { Button } from "@mui/material";
-import useSWRMutation from "swr/mutation";
 import { axiosInstance, getAuthHeader } from "@/lib/client-api";
+import useSWR from "swr";
 
-async function thankReview(url: string) {
+async function thankReview(reviewId: number) {
   const resp = await axiosInstance.put(
-    url,
+    `/reviews/${reviewId}/thanks`,
     {},
     { headers: await getAuthHeader() }
   );
@@ -21,22 +21,11 @@ async function thankReview(url: string) {
 const ReviewCard = ({ review }: { review: ReviewData }) => {
   const url = `/movies/${review.movieId}/reviews/${review.id}`;
 
-  const { data, trigger } = useSWRMutation<ReviewData>(
-    `/reviews/${review.id}/thanks`,
-    thankReview
-  );
-
-  const [isThanked, setIsThanked] = useState(review.isThanked);
-  const [thankCount, setThankCount] = useState(review.thankCount);
-  useEffect(() => {
-    if (data) {
-      setIsThanked(data?.isThanked);
-      setThankCount(data?.thankCount ?? 0);
-    }
-  }, [data]);
+  const { data, mutate } = useSWR<ReviewData>(`/reviews/${review.id}`);
 
   const onThank = async () => {
-    await trigger();
+    await thankReview(review.id);
+    mutate();
   };
 
   return (
@@ -59,11 +48,11 @@ const ReviewCard = ({ review }: { review: ReviewData }) => {
 
         <Button
           onClick={onThank}
-          className={isThanked ? "bg-blue-500" : ""}
-          variant={isThanked ? "contained" : "outlined"}
+          className={data?.isThanked ? "bg-blue-500" : ""}
+          variant={data?.isThanked ? "contained" : "outlined"}
           startIcon={<ThumbUpOffAltIcon fontSize="small" />}
         >
-          {thankCount} {thankCount > 0 ? "thanks" : "thank"}
+          {data?.thankCount} {data && data.thankCount > 1 ? "thanks" : "thank"}
         </Button>
       </div>
     </div>
