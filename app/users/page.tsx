@@ -10,8 +10,8 @@ import * as React from "react";
 export default function Users() {
   const { data, error } = useSWR("/users");
   return (
-    <div className="p-20 place-items-center">
-      <div className="grid place-items-start grid-cols-5 gap-10 justify-center">
+    <div className="place-items-center p-20">
+      <div className="grid grid-cols-5 place-items-start justify-center gap-10">
         {data?.map((user: IUserCard) => (
           <UserCard key={user.id} user={user} />
         ))}

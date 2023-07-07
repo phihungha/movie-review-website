@@ -12,7 +12,7 @@ interface UserDetailsProps {
 export default function UserWatchedMovies({ params }: UserDetailsProps) {
   const { data, error } = useSWR(`/users/${params.userId}/viewed-movies`);
   return (
-    <div className="grid place-items-center grid-cols-4 p-5 gap-10 justify-center">
+    <div className="grid grid-cols-4 place-items-center justify-center gap-10 p-5">
       {data?.map((movie: MovieData) => (
         <MovieCard key={movie.id} movie={movie} />
       ))}

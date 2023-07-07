@@ -5,7 +5,7 @@ import NavBarText from "../Texts/NavBarText";
 
 export default function NavBar() {
   return (
-    <nav className="flex justify-end p-4 gap-5 items-center bg-zinc-800">
+    <nav className="flex items-center justify-end gap-5 bg-zinc-800 p-4">
       <NavBarText>
         <Link href="/">Home</Link>
       </NavBarText>
