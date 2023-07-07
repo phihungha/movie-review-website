@@ -5,6 +5,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
+  updateCurrentUser,
+  updateEmail,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 import "./firebase";
@@ -26,7 +29,7 @@ export async function getCurrentUserIdToken(): Promise<string | null> {
 }
 
 /**
- * Sign in with Firebase
+ * Sign in with Firebase.
  * @param email Email
  * @param password Password
  * @returns Firebase user credential
@@ -36,7 +39,7 @@ export async function appSignIn(email: string, password: string) {
 }
 
 /**
- * Create Firebase user
+ * Create Firebase user.
  * @param email Email
  * @param password Password
  * @param displayName Display name
@@ -53,7 +56,29 @@ export async function createFirebaseUser(
 }
 
 /**
- * Sign out with Firebase
+ * Update Firebase user.
+ * @param email Email
+ * @param password Password
+ * @param displayName Display name
+ */
+export async function updateFirebaseUser(
+  email?: string,
+  password?: string,
+  displayName?: string
+) {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error("No user is logged in");
+  }
+
+  displayName && (await updateProfile(currentUser, { displayName }));
+  email && (await updateEmail(currentUser, email));
+  password && (await updatePassword(currentUser, password));
+}
+
+/**
+ * Sign out with Firebase.
  */
 export async function appSignOut() {
   await signOut(getAuth());
