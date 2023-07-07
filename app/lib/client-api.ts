@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
   baseURL: "http://localhost:3001",
 });
 
-async function getAuthHeader() {
+export async function getAuthHeader() {
   const idToken = await getCurrentUserIdToken();
   const bearerToken = idToken ? `Bearer ${idToken}` : undefined;
   return { Authorization: bearerToken };
