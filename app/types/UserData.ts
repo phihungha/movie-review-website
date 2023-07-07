@@ -1,6 +1,6 @@
 import { MovieData } from "@/components/MovieCard";
 import { UserType } from "./UserType";
-import { ReviewData } from "@/components/ReviewCard";
+import { ReviewData } from "./ReviewData";
 
 export interface UserData {
   id: string;

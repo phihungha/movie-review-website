@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ReviewCard, { ReviewData } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
 import MovieCard, { MovieData } from "@/components/MovieCard";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -11,6 +11,7 @@ import useSWR from "swr";
 import SectionText from "@/components/Texts/SectionText";
 import { ProfileUpdateForm } from "./components/ProfileUpdateForm";
 import { UserData } from "@/types/UserData";
+import { ReviewData } from "@/types/ReviewData";
 
 export default function Personal() {
   const { data } = useSWR<UserData>("/personal");

@@ -31,7 +31,7 @@ const ReviewCard = ({ review }: { review: ReviewData }) => {
   return (
     <div className="flex w-full items-center gap-7 rounded-xl border border-black p-5 shadow-lg">
       <div className="w-32">
-        <VerticalUserCard user={review.author}></VerticalUserCard>
+        <VerticalUserCard user={review?.author}></VerticalUserCard>
       </div>
 
       <div className="flex flex-col items-start gap-2">
