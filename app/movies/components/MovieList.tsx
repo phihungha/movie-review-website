@@ -17,12 +17,12 @@ export default function MovieList() {
   );
 
   return (
-    <div className="flex flex-col gap-8 px-24">
+    <div className="flex flex-col gap-8 px-24 py-14">
       <MovieListOptionsBar
         options={options}
         onOptionsChanged={(i) => setOptions(i)}
       />
-      <div className="grid grid-cols-4 place-items-center justify-center gap-10 p-5">
+      <div className="flex flex-wrap gap-16 p-5">
         {data?.map((movie: MovieData) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
