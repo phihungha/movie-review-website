@@ -10,6 +10,8 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { appSignIn } from "../lib/auth";
 //export const metadata = {
 //  title: "Sign In",
 //};
@@ -19,14 +21,16 @@ export default function SignIn() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const router = useRouter();
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
 
-  function HandleSignin(email: string, password: string) {
-    console.log("api here!");
+  async function HandleSignin(email: string, password: string) {
+    await appSignIn(email, password);
+    router.back();
     return;
   }
   return (
@@ -40,6 +44,7 @@ export default function SignIn() {
             className="w-full p-0 not-italic font-bold text-base leading-6 text-gray-100"
             label="Email"
             value={email}
+            onChange={(i) => setEmail(i.target.value)}
           />
         </div>
         <div className="p-10">
@@ -51,6 +56,7 @@ export default function SignIn() {
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
               value={password}
+              onChange={(i) => setPassword(i.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
