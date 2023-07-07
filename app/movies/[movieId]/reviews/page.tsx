@@ -11,11 +11,12 @@ interface MovieDetailsProps {
 }
 
 export default function Reviews({ params }: MovieDetailsProps) {
-  const { data, error } = useSWR(`/movies/${params.movieId}/reviews`);
+  const { data } = useSWR(`/movies/${params.movieId}/reviews`);
+
   const movie = GetMovie(params.movieId);
   const formatyear = new Date(movie.releaseDate).getFullYear().toString();
   function GetMovie(movieId: string): MovieData {
-    const { data, error } = useSWR(`/movies/${movieId}`);
+    const { data } = useSWR(`/movies/${movieId}`);
     const movie: MovieData = {
       id: data?.id,
       title: data?.title,
@@ -28,8 +29,8 @@ export default function Reviews({ params }: MovieDetailsProps) {
   }
 
   return (
-    <div className="flex whitespace-nowrap flex-row p-20 w-full">
-      <div className="flex flex-col text-center place-items-start p-0 gap-5">
+    <div className="flex w-full flex-row whitespace-nowrap p-20">
+      <div className="flex flex-col place-items-start gap-5 p-0 text-center">
         <Image
           className="rounded"
           src={movie.posterUrl}
@@ -37,14 +38,14 @@ export default function Reviews({ params }: MovieDetailsProps) {
           height={380}
           alt={movie.title}
         />
-        <h2 className="text-xl not-italic font-bold text-gray-900">
+        <h2 className="text-xl font-bold not-italic text-gray-900">
           {movie.title}
         </h2>
-        <h2 className="text-xl not-italic font-bold text-gray-900">
+        <h2 className="text-xl font-bold not-italic text-gray-900">
           {formatyear}
         </h2>
       </div>
-      <div className="grid place-items-start grid-rows-1 pb-10 pt-0 px-20 gap-10 justify-start w-4/6">
+      <div className="grid w-4/6 grid-rows-1 place-items-start justify-start gap-10 px-20 pb-10 pt-0">
         {data?.map((review: IReviewCard) => (
           <ReviewCard key={review.id} review={review} />
         ))}

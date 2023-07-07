@@ -59,15 +59,15 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
   data?.genres.map((genre: Genre) => genres.push(genre));
   const link = "/movies/" + params.movieId + "/reviews";
 
-  const [rating, setRating] = React.useState<number | null>(0);
+  const [score, setScore] = React.useState<number | null>(0);
   const [reviewTitle, setReviewTitle] = React.useState("");
   const [reviewContent, setReviewContent] = React.useState("");
 
   async function onReviewSubmit() {
-    if (!rating) {
+    if (!score) {
       return;
     }
-    await postReview(movieId, reviewTitle, reviewContent, rating);
+    await postReview(movieId, reviewTitle, reviewContent, score);
     mutate();
   }
 
@@ -201,8 +201,8 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           <div className="flex h-6 flex-row items-center gap-10 p-0">
             <Rating
               size="medium"
-              value={rating}
-              onChange={(_, rating) => setRating(rating)}
+              value={score}
+              onChange={(_, rating) => setScore(rating)}
               max={10}
             />
           </div>
