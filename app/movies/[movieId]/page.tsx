@@ -31,6 +31,14 @@ async function postReview(
   );
 }
 
+async function markMovieAsWatched(movieId: string) {
+  await axiosInstance.put(
+    `/movies/${movieId}/viewed`,
+    {},
+    { headers: await getAuthHeader() }
+  );
+}
+
 export default function MovieDetails({ params }: MovieDetailsProps) {
   const movieId = params.movieId;
 
@@ -71,9 +79,9 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
     mutate();
   }
 
-  function onWatchPressed() {
-    console.log("api here!");
-    return;
+  async function onWatchPressed() {
+    await markMovieAsWatched(movieId);
+    mutate();
   }
 
   return (
@@ -136,7 +144,7 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
           >
             <VisibilityIcon />
             <h2 className="text-black-500 py-1 text-base font-normal not-italic leading-4">
-              Watch
+              {data?.isViewed ? "Unwatch" : "Watch"}
             </h2>
           </Button>
           <div className="flex w-full flex-row place-items-center gap-10">
