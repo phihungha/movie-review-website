@@ -59,9 +59,6 @@ function LoggedInSegment({ userFullName }: { userFullName: string | null }) {
 
   return (
     <>
-      <Link href="/personal">
-        <NavBarText>My account</NavBarText>
-      </Link>
       <NavBarText>
         Welcome, <LinkText href="/personal">{userFullName}</LinkText>
       </NavBarText>
