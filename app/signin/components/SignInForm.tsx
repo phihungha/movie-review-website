@@ -1,20 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import { appSignIn } from "@/lib/auth";
 import PasswordField from "@/components/Inputs/PasswordField";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SignInForm() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSignIn = async () => {
+    setIsLoading(true);
     await appSignIn(email, password);
-    router.back();
+    setIsLoading(false);
+    router.replace("/");
   };
 
   return (
@@ -29,9 +34,13 @@ export default function SignInForm() {
         password={password}
         onPasswordChanged={(i) => setPassword(i)}
       />
-      <Button className="w-full" variant="outlined" onClick={onSignIn}>
-        Sign in
-      </Button>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Button className="w-full" variant="outlined" onClick={onSignIn}>
+          Sign in
+        </Button>
+      )}
     </div>
   );
 }

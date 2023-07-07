@@ -22,7 +22,7 @@ export interface PasswordFieldProps {
 
 function getLabel(label?: string, required?: boolean) {
   const labelText = label ?? "Password";
-  return labelText + (required && " *");
+  return labelText + (required ? " *" : "");
 }
 
 export default function PasswordField(props: PasswordFieldProps) {
