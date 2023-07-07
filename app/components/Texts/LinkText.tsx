@@ -2,7 +2,7 @@ import Link, { LinkProps } from "next/link";
 import { ReactNode } from "react";
 
 export type LinkTextProps = {
-  children: ReactNode;
+  children?: ReactNode;
 } & LinkProps;
 
 export function LinkText(props: LinkTextProps) {

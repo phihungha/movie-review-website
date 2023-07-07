@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { appSignOut } from "@/lib/auth";
 import { NavBarButton } from "./NavBarButton";
 import NavBarText from "../Texts/NavBarText";
+import { LinkText } from "../Texts/LinkText";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -61,9 +62,9 @@ function LoggedInSegment({ userFullName }: { userFullName: string | null }) {
       <Link href="/personal">
         <NavBarText>My account</NavBarText>
       </Link>
-      <Link href="/personal">
-        <NavBarText>Welcome, {userFullName}</NavBarText>
-      </Link>
+      <NavBarText>
+        Welcome, <LinkText href="/personal">{userFullName}</LinkText>
+      </NavBarText>
       <NavBarButton onClick={onSignOut}>Sign out</NavBarButton>
     </>
   );
