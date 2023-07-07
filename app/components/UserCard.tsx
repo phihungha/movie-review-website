@@ -14,21 +14,21 @@ const UserCard = ({ user }: { user: IUserCard }) => {
   const link = "/users/" + user.id;
   return (
     <Link href={link}>
-      <div className="flex whitespace-nowrap flex-row p-0 gap-10">
+      <div className="flex flex-row gap-10 whitespace-nowrap p-0">
         <Avatar
-          className="items-center text-center w-16 h-16"
+          className="h-16 w-16 items-center text-center"
           src={user.avatarUrl}
           alt={user.name}
           sx={{ width: 60, height: 60 }}
         />
-        <div className="flex flex-col justify-center items-start gap-1">
-          <h2 className="h-5 not-italic font-normal items-center text-center text-sm leading-6 text-black-100">
+        <div className="flex flex-col items-start justify-center gap-1">
+          <h2 className="text-black-100 h-5 items-center text-center text-sm font-normal not-italic leading-6">
             {user.name}
           </h2>
-          <h2 className="h-5 not-italic font-normal items-center text-center text-sm leading-6 text-black-100">
+          <h2 className="text-black-100 h-5 items-center text-center text-sm font-normal not-italic leading-6">
             {user.username}
           </h2>
-          <h2 className="h-5 not-italic font-normal items-center text-center text-xs leading-4 text-black-500">
+          <h2 className="text-black-500 h-5 items-center text-center text-xs font-normal not-italic leading-4">
             {user.userType}
           </h2>
         </div>

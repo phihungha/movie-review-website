@@ -10,17 +10,17 @@ export interface ICrewCard {
 
 const CrewCard = ({ user }: { user: ICrewCard }) => {
   return (
-    <div className="flex flex-col place-content-center justify-center items-center pt-7 h-20 gap-1">
+    <div className="flex h-20 flex-col place-content-center items-center justify-center gap-1 pt-7">
       <Avatar
-        className="items-center text-center w-16 h-16"
+        className="h-16 w-16 items-center text-center"
         src={user.avatarUrl}
         alt={user.name}
         sx={{ width: 60, height: 60 }}
       />
-      <h2 className="h-5 not-italic font-normal items-center text-center text-sm leading-6 text-black-100">
+      <h2 className="text-black-100 h-5 items-center text-center text-sm font-normal not-italic leading-6">
         {user.name}
       </h2>
-      <h2 className="h-5 not-italic font-normal items-center text-center text-xs leading-4 text-black-500">
+      <h2 className="text-black-500 h-5 items-center text-center text-xs font-normal not-italic leading-4">
         {user.role}
       </h2>
     </div>

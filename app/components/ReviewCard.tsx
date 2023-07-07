@@ -36,29 +36,29 @@ const ReviewCard = ({ review }: { review: IReviewCard }) => {
   };
   return (
     <Link href={link}>
-      <div className="flex flex-row w-full p-0">
+      <div className="flex w-full flex-row p-0">
         <div>
           <CrewCard user={user}></CrewCard>
         </div>
-        <div className="flex flex-col w-full items-start pl-3">
-          <h2 className="w-full h-6 not-italic font-bold text-base nowrap leading-6 text-black-100">
+        <div className="flex w-full flex-col items-start pl-3">
+          <h2 className="nowrap text-black-100 h-6 w-full text-base font-bold not-italic leading-6">
             {review.title}
           </h2>
-          <div className="flex flex-row items-center gap-10 p-0 h-6">
-            <div className="flex flex-row items-center w-10 h-5 gap-1">
+          <div className="flex h-6 flex-row items-center gap-10 p-0">
+            <div className="flex h-5 w-10 flex-row items-center gap-1">
               <StarIcon color="warning" />
-              <h2 className="w-12 h-4 not-italic font-normal text-xs leading-4 text-black-500">
+              <h2 className="text-black-500 h-4 w-12 text-xs font-normal not-italic leading-4">
                 {formatscore}
               </h2>
             </div>
-            <h2 className="not-italic font-normal text-xs leading-4 text-black-500">
+            <h2 className="text-black-500 text-xs font-normal not-italic leading-4">
               {formatdate}
             </h2>
           </div>
-          <h2 className="not-italic whitespace-pre-line font-normal text-xs text-black-100">
+          <h2 className="text-black-100 whitespace-pre-line text-xs font-normal not-italic">
             {review.content}
           </h2>
-          <button className="not-italic p-2 items-center font-normal text-xs leading-4 text-black-500">
+          <button className="text-black-500 items-center p-2 text-xs font-normal not-italic leading-4">
             <ThumbUpOffAltIcon fontSize="small" color="primary" />
             {review.thankCount} thanks
           </button>
