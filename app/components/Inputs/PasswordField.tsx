@@ -12,6 +12,7 @@ import { useState } from "react";
 
 export interface PasswordFieldProps {
   password: string;
+  label?: string;
   onPasswordChanged: (p: string) => void;
 }
 
@@ -21,7 +22,9 @@ export default function PasswordField(props: PasswordFieldProps) {
 
   return (
     <FormControl className="w-full" variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+      <InputLabel htmlFor="outlined-adornment-password">
+        {props.label ?? "Password"}
+      </InputLabel>
       <OutlinedInput
         id="outlined-adornment-password"
         type={showPassword ? "text" : "password"}
@@ -39,7 +42,7 @@ export default function PasswordField(props: PasswordFieldProps) {
             </IconButton>
           </InputAdornment>
         }
-        label="Password"
+        label={props.label ?? "Password"}
       />
     </FormControl>
   );
