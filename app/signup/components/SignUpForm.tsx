@@ -1,49 +1,78 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import PasswordField from "@/components/Inputs/PasswordField";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { UserType } from "@/types/UserType";
 import { axiosInstance } from "@/lib/client-api";
-import { createFirebaseUser } from "@/lib/auth";
+import { appSignIn, appSignOut, createFirebaseUser } from "@/lib/auth";
+import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import CircularProgress from "@mui/material/CircularProgress";
+import { User } from "firebase/auth";
 
 async function signUp(
   name: string,
-  userName: string,
+  username: string,
   email: string,
   userType: UserType,
   password: string,
   blogUrl: string
 ) {
-  const cred = await createFirebaseUser(email, password);
-  const idToken = await cred.user.getIdToken();
-  await axiosInstance.post("/personal", {
-    body: {
-      userName,
-      name,
-      type: userType,
-      blogUrl,
-    },
-    headers: `Bearer ${idToken}`,
-  });
+  let user: User | null;
+  try {
+    user = (await createFirebaseUser(email, password, name)).user;
+  } catch (err) {
+    user = (await appSignIn(email, password)).user;
+  }
+
+  const idToken = await user.getIdToken();
+
+  try {
+    await axiosInstance.post(
+      "/personal",
+      {
+        username,
+        type: userType.toLowerCase(),
+        blogUrl,
+      },
+      { headers: { Authorization: `Bearer ${idToken}` } }
+    );
+  } catch (err) {
+    throw err;
+  } finally {
+    await appSignOut();
+  }
 }
 
 export default function SignInForm() {
   const [name, setName] = React.useState("");
-  const [userName, setUserName] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [userType, setUserType] = React.useState<UserType>("Regular");
   const [blogUrl, setBlogUrl] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rePassword, setRePassword] = React.useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [displaySuccess, setDisplaySuccess] = useState(false);
   const router = useRouter();
+
   const onSignUp = async () => {
-    await signUp(name, userName, email, userType, password, blogUrl);
-    router.replace("/signin");
+    setIsLoading(true);
+    try {
+      await signUp(name, username, email, userType, password, blogUrl);
+      setDisplaySuccess(true);
+      router.push("/signin");
+    } catch (err) {
+      setIsLoading(false);
+      throw err;
+    }
   };
 
   return (
@@ -60,8 +89,8 @@ export default function SignInForm() {
         className="w-full"
         required
         label="Username"
-        value={userName}
-        onChange={(i) => setUserName(i.target.value)}
+        value={username}
+        onChange={(i) => setUsername(i.target.value)}
       />
 
       <TextField
@@ -112,9 +141,20 @@ export default function SignInForm() {
         onPasswordChanged={(i) => setRePassword(i)}
       />
 
-      <Button className="w-full" variant="outlined" onClick={onSignUp}>
-        Sign up
-      </Button>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Button className="w-full" variant="outlined" onClick={onSignUp}>
+          Sign up
+        </Button>
+      )}
+
+      {displaySuccess && (
+        <SuccessSnackbar
+          onClose={() => setDisplaySuccess(false)}
+          display={displaySuccess}
+        />
+      )}
     </div>
   );
 }

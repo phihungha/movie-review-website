@@ -4,7 +4,7 @@ import axios from "axios";
 import { getCurrentUserIdToken } from "./auth";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://cinerate-web.05052023.xyz",
+  baseURL: "http://localhost:3001",
 });
 
 async function getAuthHeader() {
@@ -14,7 +14,6 @@ async function getAuthHeader() {
 }
 
 export async function fetcher(url: string) {
-  return await axiosInstance
-    .get(url, { headers: await getAuthHeader() })
-    .then((res) => res.data);
+  const resp = await axiosInstance.get(url, { headers: await getAuthHeader() });
+  return resp.data;
 }
