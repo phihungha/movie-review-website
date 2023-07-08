@@ -165,7 +165,7 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
               <div className="flex flex-row items-center gap-1">
                 <StarIcon sx={{ fontSize: 30 }} color="warning" />
                 <h2 className="text-black-500 text-base font-normal not-italic leading-4">
-                  {data?.criticScore}
+                  {Number(data?.criticScore.toFixed(1))}
                 </h2>
               </div>
               <h2 className="text-black-500 py-1 text-base font-normal not-italic leading-4">
@@ -179,7 +179,7 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
             <div className="flex w-36 flex-col place-items-start rounded bg-slate-300 p-5">
               <div className="flex flex-row items-center gap-1">
                 <h2 className="text-black-500 text-base font-normal not-italic leading-4">
-                  {data?.regularScore}
+                  {Number(data?.regularScore.toFixed(1))}
                 </h2>
                 <StarIcon sx={{ fontSize: 30 }} color="primary" />
               </div>
