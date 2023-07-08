@@ -115,20 +115,16 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
         </div>
 
         <div className="flex w-9/12 flex-col items-start gap-3 p-20">
-          <div className="flex flex-row whitespace-nowrap p-0">
+          <div className="flex flex-row gap-5 whitespace-nowrap p-0">
             <Avatar
               className="h-16 w-16 items-center text-center"
               src={user?.avatarUrl}
               alt={user?.name}
               sx={{ width: 60, height: 60 }}
             />
-            <div className="flex flex-col items-center justify-center gap-1">
-              <h2 className="text-black-100 h-5 w-24 items-center text-center text-base font-normal not-italic leading-6">
-                {user?.name}
-              </h2>
-              <h2 className="text-black-500 h-4 w-12 items-center text-center text-xs font-normal not-italic leading-4">
-                {user?.userType}
-              </h2>
+            <div className="flex flex-col justify-center gap-1">
+              <p className="font-bold">{user?.name}</p>
+              <p className="text-sm">{user?.userType}</p>
             </div>
           </div>
 
@@ -155,32 +151,34 @@ export default function ReviewDetails({ params }: ReviewDetailsProps) {
             />
           </div>
 
-          <div className="flex h-6 w-full flex-row justify-center gap-10 pt-10">
-            <div className="self-center">
-              <Button
-                color="error"
-                className="px-20"
-                variant="outlined"
-                onClick={() => onReviewDelete()}
-              >
-                Delete
-              </Button>
-            </div>
-
-            {editIsLoading ? (
-              <CircularProgress />
-            ) : (
+          {data.isMine && (
+            <div className="flex h-6 w-full flex-row justify-center gap-10 pt-10">
               <div className="self-center">
                 <Button
+                  color="error"
                   className="px-20"
                   variant="outlined"
-                  onClick={() => onReviewEdit()}
+                  onClick={() => onReviewDelete()}
                 >
-                  Save
+                  Delete
                 </Button>
               </div>
-            )}
-          </div>
+
+              {editIsLoading ? (
+                <CircularProgress />
+              ) : (
+                <div className="self-center">
+                  <Button
+                    className="px-20"
+                    variant="outlined"
+                    onClick={() => onReviewEdit()}
+                  >
+                    Save
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       {displayEditSuccess && (
