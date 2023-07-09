@@ -6,8 +6,9 @@ import { dateToFullFormat } from "@/utils/time-conversion";
 import VerticalUserCard from "./Card/VerticalUserCard";
 import { ReviewScoreIndicator } from "./Display/ReviewScoreIndicator";
 import { Button } from "@mui/material";
-import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 import useSWR from "swr";
+import { getAuthHeader } from "@/lib/app-api";
+import { axiosInstance } from "@/lib/client-api";
 
 async function thankReview(reviewId: number) {
   const resp = await axiosInstance.put(

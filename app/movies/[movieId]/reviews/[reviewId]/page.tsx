@@ -8,11 +8,12 @@ import Rating from "@mui/material/Rating";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import useSWR from "swr";
-import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
+import { axiosInstance } from "@/lib/client-api";
+import { getAuthHeader } from "@/lib/app-api";
 
 async function editReview(
   reviewId: string,

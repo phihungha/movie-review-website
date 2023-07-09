@@ -2,31 +2,12 @@
 
 import PasswordField from "@/components/Inputs/PasswordField";
 import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
-import { updateFirebaseUser } from "@/lib/auth";
-import { axiosInstance, getAuthHeader } from "@/lib/client-api";
+import { authService } from "@/lib/client-api";
 import { UserData } from "@/types/UserData";
 import { Button, CircularProgress } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-
-async function updateProfile(
-  name?: string,
-  email?: string,
-  username?: string,
-  password?: string,
-  dateOfBirth?: string
-) {
-  await updateFirebaseUser(email, password, name);
-  await axiosInstance.patch(
-    "/personal",
-    {
-      username,
-      dateOfBirth,
-    },
-    { headers: await getAuthHeader() }
-  );
-}
 
 export function ProfileUpdateForm() {
   const { data, mutate } = useSWR<UserData>("/personal");
@@ -50,7 +31,7 @@ export function ProfileUpdateForm() {
 
   const onSave = async () => {
     setIsLoading(true);
-    await updateProfile(name, email, username, password);
+    await authService.updateProfile(name, email, username, password);
     setIsLoading(false);
     setDisplaySuccess(true);
     mutate();

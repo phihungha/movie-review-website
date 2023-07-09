@@ -4,10 +4,10 @@ import Link from "next/link";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { appSignOut } from "@/lib/auth";
 import { NavBarButton } from "./NavBarButton";
 import NavBarText from "../Texts/NavBarText";
 import { LinkText } from "../Texts/LinkText";
+import { authService } from "@/lib/client-api";
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,7 +53,7 @@ function LoggedInSegment({ userFullName }: { userFullName: string | null }) {
   const router = useRouter();
 
   const onSignOut = async () => {
-    await appSignOut();
+    await authService.signOut();
     router.refresh();
   };
 

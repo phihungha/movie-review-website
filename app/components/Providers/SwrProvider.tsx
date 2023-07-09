@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { SWRConfig } from "swr";
-import { fetcher } from "../../lib/client-api";
+import { fetcher } from "../../lib/app-api";
 
 interface SwrProviderProps {
   children: ReactNode;

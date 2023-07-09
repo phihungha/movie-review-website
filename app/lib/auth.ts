@@ -1,16 +1,21 @@
 "use client";
 
+import "./app-api";
 import {
+  User,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   signOut,
-  updateCurrentUser,
   updateEmail,
   updatePassword,
   updateProfile,
 } from "firebase/auth";
 import "./firebase";
+import { FirebaseApp } from "@firebase/app";
+import { AxiosInstance } from "axios";
+import { UserType } from "@/types/UserType";
+import { getAuthHeader } from "./app-api";
 
 export function getCurrentUser() {
   return getAuth().currentUser;
@@ -29,57 +34,94 @@ export async function getCurrentUserIdToken(): Promise<string | null> {
 }
 
 /**
- * Sign in with Firebase.
- * @param email Email
- * @param password Password
- * @returns Firebase user credential
+ * Áp dụng facade pattern để phối hợp API của Firebase
+ * và của server app (dùng Axios làm client) cho authentication.
  */
-export async function appSignIn(email: string, password: string) {
-  return await signInWithEmailAndPassword(getAuth(), email, password);
-}
+export class AuthService {
+  firebaseApi: FirebaseApp;
+  dataApi: AxiosInstance;
 
-/**
- * Create Firebase user.
- * @param email Email
- * @param password Password
- * @param displayName Display name
- * @returns Firebase user credential
- */
-export async function createFirebaseUser(
-  email: string,
-  password: string,
-  displayName: string
-) {
-  const cred = await createUserWithEmailAndPassword(getAuth(), email, password);
-  await updateProfile(cred.user, { displayName });
-  return cred;
-}
-
-/**
- * Update Firebase user.
- * @param email Email
- * @param password Password
- * @param displayName Display name
- */
-export async function updateFirebaseUser(
-  email?: string,
-  password?: string,
-  displayName?: string
-) {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser) {
-    throw new Error("No user is logged in");
+  constructor(firebaseApi: FirebaseApp, dataApi: AxiosInstance) {
+    this.firebaseApi = firebaseApi;
+    this.dataApi = dataApi;
   }
 
-  displayName && (await updateProfile(currentUser, { displayName }));
-  email && (await updateEmail(currentUser, email));
-  password && (await updatePassword(currentUser, password));
-}
+  async signUp(
+    name: string,
+    username: string,
+    email: string,
+    userType: UserType,
+    password: string,
+    blogUrl: string
+  ) {
+    let user: User | null;
+    try {
+      const cred = await createUserWithEmailAndPassword(
+        getAuth(this.firebaseApi),
+        email,
+        password
+      );
+      await updateProfile(cred.user, { displayName: name });
+      user = cred.user;
+    } catch (err) {
+      user = (await this.signIn(email, password)).user;
+    }
 
-/**
- * Sign out with Firebase.
- */
-export async function appSignOut() {
-  await signOut(getAuth());
+    const idToken = await user.getIdToken();
+
+    try {
+      await this.dataApi.post(
+        "/personal",
+        {
+          username,
+          type: userType.toLowerCase(),
+          blogUrl,
+        },
+        { headers: { Authorization: `Bearer ${idToken}` } }
+      );
+    } catch (err) {
+      throw err;
+    } finally {
+      await this.signOut();
+    }
+  }
+
+  async signIn(email: string, password: string) {
+    return await signInWithEmailAndPassword(
+      getAuth(this.firebaseApi),
+      email,
+      password
+    );
+  }
+
+  async updateProfile(
+    name?: string,
+    email?: string,
+    username?: string,
+    password?: string,
+    dateOfBirth?: string
+  ) {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      throw new Error("No user is logged in");
+    }
+
+    name && (await updateProfile(currentUser, { displayName: name }));
+    email && (await updateEmail(currentUser, email));
+    password && (await updatePassword(currentUser, password));
+
+    await this.dataApi.patch(
+      "/personal",
+      {
+        username,
+        dateOfBirth,
+      },
+      { headers: await getAuthHeader() }
+    );
+  }
+
+  async signOut() {
+    await signOut(getAuth(this.firebaseApi));
+  }
 }

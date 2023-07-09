@@ -12,10 +12,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import useSWR from "swr";
-import { axiosInstance, getAuthHeader } from "@/lib/client-api";
 import { ReviewData } from "@/types/ReviewData";
 import { CircularProgress } from "@mui/material";
 import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
+import { axiosInstance } from "@/lib/client-api";
+import { getAuthHeader } from "@/lib/app-api";
 
 async function postReview(
   movieId: string,

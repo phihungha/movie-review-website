@@ -6,49 +6,13 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import PasswordField from "@/components/Inputs/PasswordField";
 import { UserType } from "@/types/UserType";
-import { axiosInstance } from "@/lib/client-api";
-import { appSignIn, appSignOut, createFirebaseUser } from "@/lib/auth";
 import { SuccessSnackbar } from "@/components/Snackbars/SuccessSnackBar";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CircularProgress from "@mui/material/CircularProgress";
-import { User } from "firebase/auth";
-
-async function signUp(
-  name: string,
-  username: string,
-  email: string,
-  userType: UserType,
-  password: string,
-  blogUrl: string
-) {
-  let user: User | null;
-  try {
-    user = (await createFirebaseUser(email, password, name)).user;
-  } catch (err) {
-    user = (await appSignIn(email, password)).user;
-  }
-
-  const idToken = await user.getIdToken();
-
-  try {
-    await axiosInstance.post(
-      "/personal",
-      {
-        username,
-        type: userType.toLowerCase(),
-        blogUrl,
-      },
-      { headers: { Authorization: `Bearer ${idToken}` } }
-    );
-  } catch (err) {
-    throw err;
-  } finally {
-    await appSignOut();
-  }
-}
+import { authService } from "@/lib/client-api";
 
 export default function SignInForm() {
   const [name, setName] = React.useState("");
@@ -66,7 +30,14 @@ export default function SignInForm() {
   const onSignUp = async () => {
     setIsLoading(true);
     try {
-      await signUp(name, username, email, userType, password, blogUrl);
+      await authService.signUp(
+        name,
+        username,
+        email,
+        userType,
+        password,
+        blogUrl
+      );
       setDisplaySuccess(true);
       router.push("/signin");
     } catch (err) {

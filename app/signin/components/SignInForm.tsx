@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
-import { appSignIn } from "@/lib/auth";
 import PasswordField from "@/components/Inputs/PasswordField";
 import CircularProgress from "@mui/material/CircularProgress";
+import { authService } from "@/lib/client-api";
 
 export default function SignInForm() {
   const [email, setEmail] = React.useState("");
@@ -17,7 +17,7 @@ export default function SignInForm() {
 
   const onSignIn = async () => {
     setIsLoading(true);
-    await appSignIn(email, password);
+    await authService.signIn(email, password);
     setIsLoading(false);
     router.replace("/");
   };
